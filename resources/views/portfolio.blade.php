@@ -47,7 +47,7 @@
             </div>
             <button onclick="toggleAuditModal()"
                 class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded transition-all">
-                BBBook Audit
+                Book Audit
             </button>
         </div>
     </nav>
