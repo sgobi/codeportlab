@@ -58,7 +58,7 @@ class SiteProfile extends Model
             'founder_title' => 'Founder & Senior Cloud Architect @ CodePortLab',
             'founder_initials' => 'GS',
             'location' => 'Jaffna, Sri Lanka / UTC+5:30',
-            'email' => 'gobikrishnasubramaniyam@hotmail.com',
+            'email' => 'gobi@codeportlab.com',
             'github_url' => 'https://github.com/gobik1990',
             'linkedin_url' => 'https://www.linkedin.com/in/gobikrishna-subramaniyam',
             'medium_url' => 'https://medium.com/@gobik1990',

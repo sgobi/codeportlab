@@ -26,13 +26,13 @@ class SkillSeeder extends Seeder
             ['name' => 'ArgoCD & GitOps', 'group' => 'Containers & CI/CD', 'proficiency' => 'Advanced', 'sort_order' => 4],
 
             // Backend & Web
-            ['name' => 'Laravel 10 & PHP 8.1+', 'group' => 'Backend & Web', 'proficiency' => 'Expert', 'sort_order' => 1],
+            ['name' => 'Laravel 11 / PHP 8.2+ / MySQL 8.0', 'group' => 'Backend & Web', 'proficiency' => 'Expert', 'sort_order' => 1],
             ['name' => 'Filament PHP v3 CMS', 'group' => 'Backend & Web', 'proficiency' => 'Expert', 'sort_order' => 2],
             ['name' => 'RESTful & GraphQL API Design', 'group' => 'Backend & Web', 'proficiency' => 'Expert', 'sort_order' => 3],
             ['name' => 'Go (Golang) Microservices', 'group' => 'Backend & Web', 'proficiency' => 'Advanced', 'sort_order' => 4],
 
             // Databases & Ops
-            ['name' => 'MySQL 5.7 / 8.0 Performance Tuning', 'group' => 'Databases & Ops', 'proficiency' => 'Expert', 'sort_order' => 1],
+            ['name' => 'MySQL 8.0 & Database Architecture', 'group' => 'Databases & Ops', 'proficiency' => 'Expert', 'sort_order' => 1],
             ['name' => 'Redis Caching & Queue Management', 'group' => 'Databases & Ops', 'proficiency' => 'Expert', 'sort_order' => 2],
             ['name' => 'Prometheus & Grafana Monitoring', 'group' => 'Databases & Ops', 'proficiency' => 'Advanced', 'sort_order' => 3],
             ['name' => 'Apache & NGINX Web Servers', 'group' => 'Databases & Ops', 'proficiency' => 'Expert', 'sort_order' => 4],

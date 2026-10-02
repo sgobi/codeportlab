@@ -64,7 +64,7 @@
         </h1>
         <p class="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
             We build, secure, and scale production environments using Terraform IaC, Automated CI/CD Pipelines,
-            AWS/Azure Cloud Architectures, and Managed POS Infrastructure.
+            AWS/Azure Cloud Architectures, and Laravel 11 / PHP 8.2+ / MySQL 8.0 Edge Infrastructure.
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button onclick="toggleAuditModal()"
@@ -141,7 +141,7 @@
                     class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded-lg flex items-center justify-center font-mono font-bold mb-6">
                     ::</div>
                 <h3 class="text-xl font-bold text-white mb-3">Productized Backend & Edge Infrastructure</h3>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">Managed backends, ESC/POS print engines, and
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">Managed backends (Laravel 11 / PHP 8.2+ / MySQL 8.0), ESC/POS print engines, and
                     cloud backups for retail & hospitality.</p>
                 <button onclick="toggleAuditModal()"
                     class="text-cyan-400 text-sm font-semibold hover:text-cyan-300 flex items-center gap-1">Request
@@ -185,7 +185,19 @@
                         </div>
                     </div>
 
-                    @if(isset($study['link']) && str_starts_with($study['link'], 'http'))
+                    @if(isset($study['link']) && $study['link'] === '#audit-modal')
+                        <button onclick="toggleAuditModal()"
+                            class="inline-flex items-center gap-2 text-sm font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 px-4 py-2 rounded transition-all w-fit font-bold">
+                            <span>{{ $study['link_text'] }}</span>
+                            <span class="text-xs">&rarr;</span>
+                        </button>
+                    @elseif(isset($study['link']) && str_starts_with($study['link'], '#'))
+                        <a href="{{ $study['link'] }}"
+                            class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded transition-all w-fit">
+                            <span>{{ $study['link_text'] }}</span>
+                            <span class="text-xs">&rarr;</span>
+                        </a>
+                    @elseif(isset($study['link']) && str_starts_with($study['link'], 'http'))
                         <a href="{{ $study['link'] }}" target="_blank" rel="noopener noreferrer"
                             class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded transition-all w-fit">
                             <span>{{ $study['link_text'] }}</span>
@@ -194,7 +206,7 @@
                     @else
                         <button onclick="toggleAuditModal()"
                             class="inline-flex items-center gap-2 text-sm font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 px-4 py-2 rounded transition-all w-fit font-bold">
-                            <span>{{ $study['link_text'] }}</span>
+                            <span>{{ $study['link_text'] ?? 'View Benchmark Details' }}</span>
                             <span class="text-xs">&rarr;</span>
                         </button>
                     @endif
@@ -211,14 +223,16 @@
                     &gt;_
                 </div>
                 <div>
-                    <span
-                        class="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold block mb-1">Guarantees
-                        & Standards</span>
-                    <blockquote class="text-slate-200 text-sm sm:text-base italic leading-relaxed">
-                        &ldquo;Engineered for zero-downtime, strict IaC auditability, and cloud cost efficiency.&rdquo;
-                        <span class="not-italic text-slate-400 block sm:inline font-mono text-xs sm:ml-2">&mdash; Lead
-                            Cloud Architect, CodePortLab</span>
-                    </blockquote>
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                        <span
+                            class="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold">Our Core Engineering Commitment</span>
+                        <span class="text-xs font-mono text-slate-600">/</span>
+                        <span
+                            class="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold">Built by Design</span>
+                    </div>
+                    <p class="text-slate-200 text-sm sm:text-base font-medium leading-relaxed">
+                        Engineered for zero-downtime, strict IaC auditability, and cloud cost efficiency across every production deployment.
+                    </p>
                 </div>
             </div>
             <button onclick="toggleAuditModal()"
@@ -234,9 +248,10 @@
             <p class="text-slate-400 max-w-2xl mx-auto">Latest insights on Cloud Native Architecture,
                 Containerization, and DevOps Engineering.</p>
         </div>
-        <div class="grid md:grid-cols-2 gap-6">
+        <div class="grid md:grid-cols-3 gap-6">
             @forelse($techUpdates as $update)
-                <a href="{{ $update->external_url ?: 'https://medium.com/@gobik1990' }}" target="_blank" rel="noopener"
+                <a id="{{ str_contains(strtolower($update->title), 'vps') || str_contains(strtolower($update->title), 'rose villa') || str_contains(strtolower($update->title), 'laravel') ? 'journal-rose-villa' : '' }}"
+                    href="{{ $update->external_url ?: 'https://medium.com/@gobik1990' }}" target="_blank" rel="noopener"
                     class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all block group">
                     <span
                         class="text-xs font-mono text-cyan-400 uppercase">{{ $update->category ?: 'PUBLISHED ARTICLE' }}</span>
@@ -248,19 +263,21 @@
             @empty
                 <a href="https://medium.com/@gobik1990" target="_blank" rel="noopener"
                     class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all block group">
-                    <span class="text-xs font-mono text-cyan-400">PUBLISHED ARTICLE</span>
-                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Stop Shell
-                        Scripting: Build a Smart Docker Assistant with MCP</h3>
-                    <p class="text-slate-400 text-sm mt-2">How Model Context Protocol replaces brittle bash scripts for
-                        container orchestration.</p>
+                    <span class="text-xs font-mono text-cyan-400">CLOUD COST OPTIMIZATION</span>
+                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">How We Reduced AWS Infrastructure Costs by 38% Using Terraform</h3>
+                    <p class="text-slate-400 text-sm mt-2">A strategic breakdown of rightsizing AWS resources and automating lifecycle policies via Terraform IaC.</p>
                 </a>
                 <a href="https://medium.com/@gobik1990" target="_blank" rel="noopener"
                     class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all block group">
-                    <span class="text-xs font-mono text-cyan-400">ARCHITECTURAL COMPARISON</span>
-                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">ECS vs.
-                        EKS: Which AWS Container Orchestrator is Right?</h3>
-                    <p class="text-slate-400 text-sm mt-2">A technical cost and ops breakdown for engineering leaders
-                        evaluating AWS compute.</p>
+                    <span class="text-xs font-mono text-cyan-400">DEVOPS & AUTOMATION</span>
+                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Zero-Downtime CI/CD Pipelines for Enterprise Web Applications</h3>
+                    <p class="text-slate-400 text-sm mt-2">Architecting automated blue-green and canary delivery pipelines using GitHub Actions and container orchestration.</p>
+                </a>
+                <a id="journal-rose-villa" href="https://medium.com/@gobik1990" target="_blank" rel="noopener"
+                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all block group">
+                    <span class="text-xs font-mono text-cyan-400">PERFORMANCE ENGINEERING</span>
+                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Optimizing High-Traffic Laravel Applications on Constrained VPS Hosting</h3>
+                    <p class="text-slate-400 text-sm mt-2">Maximizing throughput and reducing database latency for Laravel 11 / PHP 8.2+ / MySQL 8.0 on resource-constrained environments.</p>
                 </a>
             @endforelse
         </div>
@@ -308,9 +325,9 @@
                 </div>
                 <div>
                     <label class="block text-xs font-mono text-slate-400 mb-1">CLOUD / STACK (AWS, AZURE, DOCKER,
-                        LARAVEL 11 / PHP 8.2+)</label>
+                        LARAVEL 11 / PHP 8.2+ / MYSQL 8.0)</label>
                     <input type="text" required
-                        placeholder="e.g. AWS EKS, Terraform, Laravel 11 (PHP 8.2+), POS Systems"
+                        placeholder="e.g. AWS EKS, Terraform, Laravel 11 / PHP 8.2+ / MySQL 8.0, POS Systems"
                         class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
                 </div>
                 <div>
@@ -385,7 +402,7 @@
             const commands = {
                 'help': 'Available commands: <span class="text-amber-300">services</span>, <span class="text-amber-300">stack</span>, <span class="text-amber-300">contact</span>, <span class="text-amber-300">clear</span>',
                 'services': '1. AWS/Azure Cloud Infrastructure & IaC\n2. DevSecOps & Automated CI/CD Pipelines\n3. Managed Retail POS & Cloud Deployments',
-                'stack': 'Laravel 11 (PHP 8.2+), Filament v3, Terraform, Docker, Kubernetes, AWS EKS, MySQL, Tailwind CSS',
+                'stack': 'Laravel 11 / PHP 8.2+ / MySQL 8.0, Filament v3, Terraform, Docker, Kubernetes, AWS EKS, Tailwind CSS',
                 'contact': 'Email: {{ $siteProfile->email }} | Location: {{ $siteProfile->location }}'
             };
 

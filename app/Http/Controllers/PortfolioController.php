@@ -21,14 +21,21 @@ class PortfolioController extends Controller
                 // Parse comma-separated tech stack or use it as metrics/tags
                 $tags = array_filter(array_map('trim', explode(',', $project->tech_stack ?? '')));
                 if (empty($tags)) {
-                    $tags = ['Cloud Architecture', 'DevOps', 'IaC'];
+                    $tags = ['38% AWS Cost Reduction', 'Zero-Downtime Deployment', '99.99% Uptime'];
                 }
 
                 $link = $project->article_url ?: $project->live_url;
-                $linkText = 'Request Architecture Demo';
+                $linkText = 'View Benchmark Details';
 
-                if ($project->article_url) {
-                    $linkText = str_contains($project->article_url, 'github') ? 'GitHub Repo' : 'Read Case Study';
+                $isRoseVilla = str_contains(strtolower($project->title ?? ''), 'rose villa')
+                    || str_contains(strtolower($project->description ?? ''), 'rose villa')
+                    || str_contains(strtolower($project->category ?? ''), 'client');
+
+                if ($isRoseVilla) {
+                    $link = '#journal-rose-villa';
+                    $linkText = 'View Benchmark Details';
+                } elseif ($project->article_url) {
+                    $linkText = str_contains($project->article_url, 'github') ? 'GitHub Repo' : 'View Benchmark Details';
                 } elseif ($project->live_url) {
                     $linkText = 'Live Project';
                 }
@@ -36,7 +43,7 @@ class PortfolioController extends Controller
                 return [
                     'title' => $project->title,
                     'category' => $project->category ?: 'Cloud Architecture & IaC',
-                    'type' => str_contains(strtolower($project->category ?? ''), 'client') ? 'Client Production System' : 'Infrastructure Lab Benchmark',
+                    'type' => $isRoseVilla ? 'Client Production System' : 'Infrastructure Lab Benchmark',
                     'description' => $project->description,
                     'metrics' => array_slice($tags, 0, 3),
                     'link' => $link ?: '#audit-modal',
@@ -46,17 +53,17 @@ class PortfolioController extends Controller
         } else {
             $caseStudies = [
                 [
-                    'title' => 'High-Availability AWS & Container Orchestration',
+                    'title' => 'Enterprise EKS & AWS Cost Optimization',
                     'category' => 'Cloud Architecture & IaC',
                     'type' => 'Infrastructure Lab Benchmark',
                     'description' => 'Migrated legacy monolith to AWS EKS with Terraform IaC, automated zero-downtime CI/CD pipelines, and secret management via HashiCorp Vault.',
                     'metrics' => [
                         '38% AWS Cost Reduction',
-                        'Zero Downtime Deployment',
-                        '99.99% Service Uptime',
+                        'Zero-Downtime Deployment',
+                        '99.99% Uptime',
                     ],
                     'link' => 'https://github.com/gobik1990/mcp-docker',
-                    'link_text' => 'GitHub Repo',
+                    'link_text' => 'View Benchmark Details',
                 ],
                 [
                     'title' => 'Automated DevOps CI/CD & Security Scanning',
@@ -69,20 +76,20 @@ class PortfolioController extends Controller
                         '100% Infrastructure as Code',
                     ],
                     'link' => 'https://medium.com/@gobik1990',
-                    'link_text' => 'Read Case Study',
+                    'link_text' => 'View Benchmark Details',
                 ],
                 [
-                    'title' => 'Productized Backend & Edge POS Infrastructure',
+                    'title' => 'Productized Backend & Edge POS Infrastructure (Rose Villa)',
                     'category' => 'Productized B2B Deployments',
-                    'type' => 'Client Production System (Rose Villa)',
-                    'description' => 'Engineered high-performance Laravel 11 (PHP 8.2+) & Filament v3 backend integrated with ESC/POS print engines, automated cloud backups, and remote support.',
+                    'type' => 'Client Production System',
+                    'description' => 'Engineered high-performance Laravel 11 / PHP 8.2+ / MySQL 8.0 & Filament v3 backend integrated with ESC/POS print engines, automated cloud backups, and remote support.',
                     'metrics' => [
                         '<200ms API Latency',
                         'Automated Offsite Backups',
                         '50k req/min Capacity',
                     ],
-                    'link' => '#audit-modal',
-                    'link_text' => 'Request Architecture Demo',
+                    'link' => '#journal-rose-villa',
+                    'link_text' => 'View Benchmark Details',
                 ],
             ];
         }

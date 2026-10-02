@@ -12,33 +12,35 @@ class TechUpdateSeeder extends Seeder
      */
     public function run(): void
     {
+        TechUpdate::query()->delete();
+
         $updates = [
             [
-                'title' => 'Optimizing Laravel 10 Applications for MySQL 5.7 Legacy cPanel Hosts',
-                'category' => 'DevOps & Cloud',
-                'summary' => 'Key techniques for deploying modern Laravel 10 and Filament v3 apps on legacy MySQL 5.7 hosting without relying on native JSON types or MySQL 8 CTE syntax.',
-                'content' => '<p>Deploying modern Laravel 10 frameworks onto cPanel environments running MySQL 5.7 requires careful database indexing and legacy query optimization. In this writeup, we analyze storage layout, root directory isolation, and opcode caching settings for maximum speed under 1GB quota limits.</p>',
-                'external_url' => 'https://codeportlab.com',
+                'title' => 'How We Reduced AWS Infrastructure Costs by 38% Using Terraform',
+                'category' => 'Cloud Cost Optimization',
+                'summary' => 'A strategic breakdown of rightsizing AWS resources, optimizing container compute on EKS, and automating lifecycle policies via Terraform IaC.',
+                'content' => '<p>A strategic breakdown of rightsizing AWS resources, optimizing container compute on EKS, and automating lifecycle policies via Terraform IaC.</p>',
+                'external_url' => 'https://codeportlab.com/#journal',
                 'is_pinned' => true,
                 'is_published' => true,
                 'published_at' => now(),
             ],
             [
-                'title' => 'Building Zero-Downtime Infrastructure Pipelines with Terraform & GitHub Actions',
-                'category' => 'Architecture',
-                'summary' => 'A practical guide to structuring modular Terraform code with remote state locking, automated plans on PR, and controlled apply steps.',
-                'content' => '<p>Infrastructure as Code is only as good as the CI/CD pipeline enforcing it. Learn how to set up plan previews on Pull Requests and strict approval gates for production deployments.</p>',
-                'external_url' => 'https://codeportlab.com',
+                'title' => 'Zero-Downtime CI/CD Pipelines for Enterprise Web Applications',
+                'category' => 'DevOps & CI/CD',
+                'summary' => 'Architecting resilient automated delivery pipelines using GitHub Actions, Docker containerization, and canary deployment rollouts.',
+                'content' => '<p>Architecting resilient automated delivery pipelines using GitHub Actions, Docker containerization, and canary deployment rollouts.</p>',
+                'external_url' => 'https://codeportlab.com/#journal',
                 'is_pinned' => false,
                 'is_published' => true,
                 'published_at' => now()->subDays(2),
             ],
             [
-                'title' => 'Designing Glassmorphic Dark UIs with Tailwind CSS & Filament v3',
-                'category' => 'Full-Stack',
-                'summary' => 'How to craft sleek, responsive developer tools and admin panels using dynamic backdrop filters, custom color tokens, and JetBrains Mono typography.',
-                'content' => '<p>Combining high aesthetic visual design with enterprise usability. We breakdown CSS backdrop-filter tricks, tailored HSL color palettes, and responsive glass panel components.</p>',
-                'external_url' => 'https://codeportlab.com',
+                'title' => 'Optimizing High-Traffic Laravel Applications on Constrained VPS Hosting',
+                'category' => 'Backend Architecture',
+                'summary' => 'Techniques for maximizing throughput and reducing database bottlenecks for Laravel 11 / PHP 8.2+ / MySQL 8.0, with backward compatibility notes for legacy cPanel environments.',
+                'content' => '<p>Techniques for maximizing throughput and reducing database bottlenecks for Laravel 11 / PHP 8.2+ / MySQL 8.0, with backward compatibility notes for legacy cPanel environments.</p>',
+                'external_url' => '#journal-rose-villa',
                 'is_pinned' => false,
                 'is_published' => true,
                 'published_at' => now()->subDays(5),

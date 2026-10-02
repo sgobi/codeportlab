@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('founder_initials')->default('GS');
             $table->string('founder_avatar')->nullable();
             $table->string('location')->default('Jaffna, Sri Lanka / UTC+5:30');
-            $table->string('email')->default('gobikrishnasubramaniyam@hotmail.com');
+            $table->string('email')->default('gobi@codeportlab.com');
 
             // Social Proof
             $table->string('github_url')->nullable()->default('https://github.com/gobik1990');

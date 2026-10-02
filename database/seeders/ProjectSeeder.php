@@ -12,11 +12,13 @@ class ProjectSeeder extends Seeder
      */
     public function run(): void
     {
+        Project::query()->delete();
+
         $projects = [
             [
-                'title' => 'Enterprise EKS Kubernetes Migration & GitOps Pipeline',
-                'category' => 'DevOps & Cloud',
-                'tech_stack' => 'AWS EKS, Terraform, ArgoCD, Helm, Docker, GitHub Actions',
+                'title' => 'Enterprise EKS Kubernetes Migration & AWS Cost Optimization',
+                'category' => 'Infrastructure Lab Benchmark',
+                'tech_stack' => '38% AWS Cost Reduction, Zero-Downtime Deployment, 99.99% Uptime',
                 'description' => 'Architected and executed a zero-downtime migration of multi-region monolithic workloads to AWS EKS clusters managed via IaC (Terraform) and GitOps deployment automation.',
                 'content' => '<h3>Architectural Highlights</h3><p>Designed immutable infrastructure modules with Terraform to standardize cluster provisioning. Implemented GitOps using ArgoCD for automated canary deployments, reducing deployment lead time by 75% while maintaining strict SOC2 compliance standards.</p>',
                 'live_url' => 'https://codeportlab.com',
@@ -25,20 +27,20 @@ class ProjectSeeder extends Seeder
                 'is_featured' => true,
             ],
             [
-                'title' => 'High-Availability Laravel Platform on CloudLinux 7 & Apache',
-                'category' => 'Full-Stack Architecture',
-                'tech_stack' => 'Laravel 10, PHP 8.1, MySQL 5.7, Apache, Redis, Filament v3',
-                'description' => 'Built a high-performance developer portfolio & content engine optimized specifically for cPanel shared-virtual environments with tight MySQL 5.7 strict schema compatibility.',
-                'content' => '<h3>Optimization Breakdown</h3><p>Optimized asset size and query performance under a strict 1GB storage quota budget. Configured custom Apache mod_rewrite root isolation to guarantee security while supporting full Filament 3 administration.</p>',
+                'title' => 'Productized Backend & Edge POS Infrastructure (Rose Villa)',
+                'category' => 'Client Production System',
+                'tech_stack' => 'Laravel 11 / PHP 8.2+ / MySQL 8.0, Filament v3, ESC/POS',
+                'description' => 'Engineered high-performance Laravel 11 / PHP 8.2+ / MySQL 8.0 & Filament v3 backend integrated with ESC/POS print engines, automated cloud backups, and remote support.',
+                'content' => '<h3>System Implementation</h3><p>Engineered resilient point-of-sale infrastructure connected to distributed cloud backends with real-time sync, automated offsite snapshots, and low-latency receipt generation.</p>',
                 'live_url' => 'https://codeportlab.com',
-                'article_url' => 'https://codeportlab.com/#journal',
+                'article_url' => '#journal-rose-villa',
                 'sort_order' => 2,
                 'is_featured' => true,
             ],
             [
                 'title' => 'Automated Cloud Governance & IaC Compliance Engine',
-                'category' => 'Architecture & Security',
-                'tech_stack' => 'AWS IAM, Terraform Cloud, Python, AWS Config, CloudWatch',
+                'category' => 'Infrastructure Lab Benchmark',
+                'tech_stack' => '38% AWS Cost Reduction, Zero-Downtime Deployment, 99.99% Uptime',
                 'description' => 'Engineered continuous compliance rules checking infrastructure code against CIS benchmarks, automatically catching misconfigured S3 buckets and exposed security groups prior to merge.',
                 'content' => '<h3>Security Controls</h3><p>Integrated pre-commit terraform validation with automated AWS Config custom rules. Reduced cloud security vulnerability findings by 90% across production accounts.</p>',
                 'live_url' => 'https://codeportlab.com',
