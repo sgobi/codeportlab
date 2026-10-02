@@ -1,0 +1,55 @@
+name: Deploy CodePortLab to cPanel
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  web-deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout Latest Code
+        uses: actions/checkout@v4
+
+      - name: 2. Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql
+
+      - name: 3. Install Composer Dependencies
+        run: composer install --no-dev --optimize-autoloader --prefer-dist
+
+      - name: 4. Setup Node.js & Build Frontend Assets
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 5. Build Assets (Vite / Filament)
+        run: |
+          npm ci
+          npm run build
+
+      - name: 6. FTP Sync Project Files to cPanel
+        uses: SamKirsch/ftp-deploy-action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /codeportlab/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .env
+            storage/framework/cache/data/**
+            storage/framework/sessions/**
+            storage/framework/views/**
+            storage/logs/**
+
+      - name: 7. Trigger Remote Laravel Artisan Commands
+        run: |
+          curl -s "https://codeportlab.com/deploy.php?key=${{ secrets.DEPLOY_KEY }}"

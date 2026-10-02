@@ -1,0 +1,33 @@
+# CodePortLab cPanel Root Isolation & Apache Security Configuration
+# Domain: codeportlab.com
+# Host OS: CloudLinux 7 / Apache mod_rewrite / MultiPHP 8.1
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Route all incoming requests to the /public directory
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Block sensitive environment, configuration, and project files from direct HTTP access
+<FilesMatch "^\.env|\.git|composer\.(json|lock)|package\.(json|lock)|phpunit\.xml|artisan$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Enterprise Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Disable Directory Browsing
+Options -Indexes
