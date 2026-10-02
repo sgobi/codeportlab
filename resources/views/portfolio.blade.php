@@ -29,10 +29,13 @@
     <nav class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <a href="#" class="flex items-center gap-3">
-                <img src="{{ $siteProfile->logo_url }}" alt="{{ $siteProfile->brand_name }} Logo" class="h-10 w-auto object-contain">
+                <img src="{{ $siteProfile->logo_url }}" alt="{{ $siteProfile->brand_name }} Logo"
+                    class="h-10 w-auto object-contain">
                 <div class="flex flex-col leading-none">
-                    <span class="font-mono text-lg font-bold text-white">{{ $siteProfile->brand_name }}<span class="text-cyan-400">{{ $siteProfile->brand_accent }}</span></span>
-                    <span class="text-[10px] text-slate-400 tracking-widest font-mono mt-0.5">{{ $siteProfile->tagline }}</span>
+                    <span class="font-mono text-lg font-bold text-white">{{ $siteProfile->brand_name }}<span
+                            class="text-cyan-400">{{ $siteProfile->brand_accent }}</span></span>
+                    <span
+                        class="text-[10px] text-slate-400 tracking-widest font-mono mt-0.5">{{ $siteProfile->tagline }}</span>
                 </div>
             </a>
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
@@ -44,7 +47,7 @@
             </div>
             <button onclick="toggleAuditModal()"
                 class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded transition-all">
-                Book Audit
+                BBBook Audit
             </button>
         </div>
     </nav>
@@ -138,7 +141,8 @@
                     class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded-lg flex items-center justify-center font-mono font-bold mb-6">
                     ::</div>
                 <h3 class="text-xl font-bold text-white mb-3">Productized Backend & Edge Infrastructure</h3>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">Managed backends, ESC/POS print engines, and cloud backups for retail & hospitality.</p>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">Managed backends, ESC/POS print engines, and
+                    cloud backups for retail & hospitality.</p>
                 <button onclick="toggleAuditModal()"
                     class="text-cyan-400 text-sm font-semibold hover:text-cyan-300 flex items-center gap-1">Request
                     Architecture &rarr;</button>
@@ -160,8 +164,10 @@
                     <div>
                         <!-- Type Badge & Category Header -->
                         <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
-                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{{ $study['category'] }}</span>
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-medium {{ str_contains($study['type'] ?? '', 'Client') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-purple-500/10 text-purple-300 border border-purple-500/30' }}">
+                            <span
+                                class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{{ $study['category'] }}</span>
+                            <span
+                                class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-medium {{ str_contains($study['type'] ?? '', 'Client') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-purple-500/10 text-purple-300 border border-purple-500/30' }}">
                                 {{ $study['type'] ?? 'Benchmark' }}
                             </span>
                         </div>
@@ -197,16 +203,21 @@
         </div>
 
         <!-- Guarantees & Standards Trust Proof Box -->
-        <div class="mt-12 bg-slate-900/60 border border-slate-800 rounded-xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div
+            class="mt-12 bg-slate-900/60 border border-slate-800 rounded-xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center shrink-0 text-cyan-400 font-mono text-sm font-bold">
+                <div
+                    class="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center shrink-0 text-cyan-400 font-mono text-sm font-bold">
                     &gt;_
                 </div>
                 <div>
-                    <span class="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold block mb-1">Guarantees & Standards</span>
+                    <span
+                        class="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold block mb-1">Guarantees
+                        & Standards</span>
                     <blockquote class="text-slate-200 text-sm sm:text-base italic leading-relaxed">
                         &ldquo;Engineered for zero-downtime, strict IaC auditability, and cloud cost efficiency.&rdquo;
-                        <span class="not-italic text-slate-400 block sm:inline font-mono text-xs sm:ml-2">&mdash; Lead Cloud Architect, CodePortLab</span>
+                        <span class="not-italic text-slate-400 block sm:inline font-mono text-xs sm:ml-2">&mdash; Lead
+                            Cloud Architect, CodePortLab</span>
                     </blockquote>
                 </div>
             </div>
@@ -227,8 +238,11 @@
             @forelse($techUpdates as $update)
                 <a href="{{ $update->external_url ?: 'https://medium.com/@gobik1990' }}" target="_blank" rel="noopener"
                     class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all block group">
-                    <span class="text-xs font-mono text-cyan-400 uppercase">{{ $update->category ?: 'PUBLISHED ARTICLE' }}</span>
-                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">{{ $update->title }}</h3>
+                    <span
+                        class="text-xs font-mono text-cyan-400 uppercase">{{ $update->category ?: 'PUBLISHED ARTICLE' }}</span>
+                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
+                        {{ $update->title }}
+                    </h3>
                     <p class="text-slate-400 text-sm mt-2">{{ $update->summary }}</p>
                 </a>
             @empty
@@ -295,7 +309,8 @@
                 <div>
                     <label class="block text-xs font-mono text-slate-400 mb-1">CLOUD / STACK (AWS, AZURE, DOCKER,
                         LARAVEL 11 / PHP 8.2+)</label>
-                    <input type="text" required placeholder="e.g. AWS EKS, Terraform, Laravel 11 (PHP 8.2+), POS Systems"
+                    <input type="text" required
+                        placeholder="e.g. AWS EKS, Terraform, Laravel 11 (PHP 8.2+), POS Systems"
                         class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
                 </div>
                 <div>
@@ -321,7 +336,8 @@
             <!-- Founder Profile Badge -->
             <div class="flex items-center gap-4">
                 @if($siteProfile->avatar_url)
-                    <img src="{{ $siteProfile->avatar_url }}" alt="{{ $siteProfile->founder_name }}" class="w-14 h-14 rounded-full object-cover border-2 border-cyan-500/40">
+                    <img src="{{ $siteProfile->avatar_url }}" alt="{{ $siteProfile->founder_name }}"
+                        class="w-14 h-14 rounded-full object-cover border-2 border-cyan-500/40">
                 @else
                     <div
                         class="w-14 h-14 rounded-full bg-slate-800 border-2 border-cyan-500/40 flex items-center justify-center font-mono font-bold text-cyan-400 text-lg">
@@ -344,7 +360,8 @@
                     @endforeach
                 </div>
                 @if(!empty($siteProfile->phone))
-                    <p class="text-xs font-mono text-slate-400">Direct / WhatsApp: <a href="tel:{{ $siteProfile->phone }}" class="text-cyan-400 hover:underline">{{ $siteProfile->phone }}</a></p>
+                    <p class="text-xs font-mono text-slate-400">Direct / WhatsApp: <a href="tel:{{ $siteProfile->phone }}"
+                            class="text-cyan-400 hover:underline">{{ $siteProfile->phone }}</a></p>
                 @endif
                 <p class="text-xs text-slate-600">© {{ date('Y') }} {{ $siteProfile->copyright_text }}</p>
             </div>
