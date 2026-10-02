@@ -24,13 +24,13 @@ jobs:
           npm ci
           npm run build
 
-      - name: 4. FTP Sync Code to cPanel (Fast Sync)
+      - name: 4. FTP Sync Code to cPanel
         uses: SamKirkland/ftp-deploy-action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /codeportlab/
+          server-dir: ./
           exclude: |
             **/.git*
             **/.git*/**
@@ -42,7 +42,6 @@ jobs:
             storage/framework/views/**
             storage/logs/**
 
-            
       - name: 5. Trigger Remote Laravel Artisan Commands
         run: |
           curl -s "https://codeportlab.com/deploy.php?key=${{ secrets.DEPLOY_KEY }}"
