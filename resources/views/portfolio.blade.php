@@ -316,24 +316,41 @@
             <p class="text-slate-400 text-sm mb-6">Fill in your email and primary cloud stack. We will respond
                 within 24 hours.</p>
 
-            <form action="#contact" method="POST" class="space-y-4">
+            @if(session('audit_success'))
+                <div class="mb-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs flex items-center gap-2">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span>{{ session('audit_success') }}</span>
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 font-mono text-xs">
+                    <ul class="list-disc list-inside space-y-1">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('audit.submit') }}" method="POST" class="space-y-4">
                 @csrf
                 <div>
                     <label class="block text-xs font-mono text-slate-400 mb-1">YOUR EMAIL</label>
-                    <input type="email" required placeholder="cto@company.com"
+                    <input type="email" name="email" value="{{ old('email') }}" required placeholder="cto@company.com"
                         class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
                 </div>
                 <div>
                     <label class="block text-xs font-mono text-slate-400 mb-1">CLOUD / STACK (AWS, AZURE, DOCKER,
                         LARAVEL 11 / PHP 8.2+ / MYSQL 8.0)</label>
-                    <input type="text" required
+                    <input type="text" name="stack" value="{{ old('stack') }}" required
                         placeholder="e.g. AWS EKS, Terraform, Laravel 11 / PHP 8.2+ / MySQL 8.0, POS Systems"
                         class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
                 </div>
                 <div>
                     <label class="block text-xs font-mono text-slate-400 mb-1">PROJECT SCOPE & GOALS</label>
-                    <textarea rows="3" placeholder="Describe current pain points, cost targets, or migration needs..."
-                        class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400"></textarea>
+                    <textarea name="scope" rows="3" placeholder="Describe current pain points, cost targets, or migration needs..."
+                        class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">{{ old('scope') }}</textarea>
                 </div>
                 <button type="submit"
                     class="w-full py-3 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold rounded transition-all">
@@ -396,6 +413,10 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            @if(session('audit_success') || $errors->any())
+                const modal = document.getElementById('audit-modal');
+                if (modal) modal.classList.remove('hidden');
+            @endif
             const input = document.getElementById('terminal-input');
             const output = document.getElementById('terminal-output');
 

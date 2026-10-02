@@ -103,4 +103,41 @@ class PortfolioController extends Controller
 
         return view('portfolio', compact('siteProfile', 'caseStudies', 'techUpdates'));
     }
+
+    /**
+     * Handle inbound infrastructure audit booking requests.
+     */
+    public function submitAudit(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email|max:255',
+            'stack' => 'required|string|max:255',
+            'scope' => 'nullable|string|max:2000',
+        ]);
+
+        try {
+            $siteProfile = SiteProfile::getActive();
+            $recipient = $siteProfile->email ?: 'gobi@codeportlab.com';
+
+            \Illuminate\Support\Facades\Mail::raw(
+                "New Infrastructure Audit Request:\n\nEmail: {$validated['email']}\nCloud/Stack: {$validated['stack']}\nScope: " . ($validated['scope'] ?? 'None provided'),
+                function ($message) use ($recipient, $validated) {
+                    $message->to($recipient)
+                        ->replyTo($validated['email'])
+                        ->subject('New Infrastructure Audit Request - CodePortLab');
+                }
+            );
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::info('Audit request received: ' . json_encode($validated));
+        }
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Thank you! Your audit request has been received. We will respond within 24 hours.',
+            ]);
+        }
+
+        return redirect()->to(url('/#contact'))->with('audit_success', 'Thank you! Your audit request has been received. We will respond within 24 hours.');
+    }
 }

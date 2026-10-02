@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PortfolioController::class, 'index'])->name('portfolio');
+Route::post('/', [PortfolioController::class, 'submitAudit'])->name('audit.submit');
+Route::post('/contact', [PortfolioController::class, 'submitAudit']);
 
 Route::get('/login', function () {
     return redirect()->route('filament.admin.auth.login');
