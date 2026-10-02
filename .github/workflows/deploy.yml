@@ -42,6 +42,7 @@ jobs:
             storage/framework/views/**
             storage/logs/**
 
+            
       - name: 5. Trigger Remote Laravel Artisan Commands
         run: |
           curl -s "https://codeportlab.com/deploy.php?key=${{ secrets.DEPLOY_KEY }}"
