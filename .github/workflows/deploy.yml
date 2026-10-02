@@ -1,4 +1,4 @@
-name: Deploy CodePortLab to cPanel
+name: Deploy CodePortLab to  cPanel
 
 on:
   push:
@@ -45,3 +45,5 @@ jobs:
       - name: 5. Trigger Remote Laravel Artisan Commands
         run: |
           curl -s "https://codeportlab.com/deploy.php?key=${{ secrets.DEPLOY_KEY }}"
+
+
