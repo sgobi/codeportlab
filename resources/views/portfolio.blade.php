@@ -185,27 +185,33 @@
                         </div>
                     </div>
 
-                    @if(isset($study['link']) && $study['link'] === '#audit-modal')
-                        <button onclick="toggleAuditModal()"
-                            class="inline-flex items-center gap-2 text-sm font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 px-4 py-2 rounded transition-all w-fit font-bold">
+                    @if(isset($study['action_type']) && $study['action_type'] === 'rose_villa')
+                        <button type="button" onclick="openRoseVillaModal()"
+                            class="inline-flex items-center gap-2 text-sm font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 px-4 py-2 rounded transition-all w-fit font-bold cursor-pointer">
+                            <span>{{ $study['link_text'] ?? 'View Benchmark Details' }}</span>
+                            <span class="text-xs">&rarr;</span>
+                        </button>
+                    @elseif(isset($study['action_type']) && $study['action_type'] === 'preview')
+                        <button type="button" onclick="openPreviewModal(@js($study['title']), @js($study['category']), @js($study['description']))"
+                            class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 hover:text-cyan-300 px-4 py-2 rounded transition-all w-fit cursor-pointer">
+                            <span>{{ $study['link_text'] ?? 'View Benchmark Details' }}</span>
+                            <span class="text-xs">&rarr;</span>
+                        </button>
+                    @elseif(isset($study['link']) && $study['link'] === '#audit-modal')
+                        <button type="button" onclick="toggleAuditModal()"
+                            class="inline-flex items-center gap-2 text-sm font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 px-4 py-2 rounded transition-all w-fit font-bold cursor-pointer">
                             <span>{{ $study['link_text'] }}</span>
                             <span class="text-xs">&rarr;</span>
                         </button>
-                    @elseif(isset($study['link']) && str_starts_with($study['link'], '#'))
-                        <a href="{{ $study['link'] }}"
-                            class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded transition-all w-fit">
-                            <span>{{ $study['link_text'] }}</span>
-                            <span class="text-xs">&rarr;</span>
-                        </a>
-                    @elseif(isset($study['link']) && str_starts_with($study['link'], 'http'))
+                    @elseif(isset($study['link']) && str_starts_with($study['link'], 'http') && !str_contains($study['link'], '#journal'))
                         <a href="{{ $study['link'] }}" target="_blank" rel="noopener noreferrer"
                             class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded transition-all w-fit">
                             <span>{{ $study['link_text'] }}</span>
                             <span class="text-xs">&rarr;</span>
                         </a>
                     @else
-                        <button onclick="toggleAuditModal()"
-                            class="inline-flex items-center gap-2 text-sm font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 px-4 py-2 rounded transition-all w-fit font-bold">
+                        <button type="button" onclick="openPreviewModal(@js($study['title']), @js($study['category']), @js($study['description']))"
+                            class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 hover:text-cyan-300 px-4 py-2 rounded transition-all w-fit cursor-pointer">
                             <span>{{ $study['link_text'] ?? 'View Benchmark Details' }}</span>
                             <span class="text-xs">&rarr;</span>
                         </button>
@@ -250,35 +256,113 @@
         </div>
         <div class="grid md:grid-cols-3 gap-6">
             @forelse($techUpdates as $update)
-                <a id="{{ str_contains(strtolower($update->title), 'vps') || str_contains(strtolower($update->title), 'rose villa') || str_contains(strtolower($update->title), 'laravel') ? 'journal-rose-villa' : '' }}"
-                    href="{{ $update->external_url ?: 'https://medium.com/@gobik1990' }}" target="_blank" rel="noopener"
-                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all block group">
-                    <span
-                        class="text-xs font-mono text-cyan-400 uppercase">{{ $update->category ?: 'PUBLISHED ARTICLE' }}</span>
-                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
-                        {{ $update->title }}
-                    </h3>
-                    <p class="text-slate-400 text-sm mt-2">{{ $update->summary }}</p>
-                </a>
+                @php
+                    $isRoseVillaJournal = str_contains(strtolower($update->title), 'vps') 
+                        || str_contains(strtolower($update->title), 'rose villa') 
+                        || str_contains(strtolower($update->title), 'laravel');
+                    $hasExternalUrl = !empty($update->external_url) 
+                        && !str_starts_with($update->external_url, '#') 
+                        && !str_contains($update->external_url, '#journal');
+                @endphp
+
+                @if($isRoseVillaJournal)
+                    <div onclick="openRoseVillaModal()"
+                        class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{{ $update->category ?: 'CASE STUDY' }}</span>
+                                <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Live Breakdown</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
+                                {{ $update->title }}
+                            </h3>
+                            <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ $update->summary }}</p>
+                        </div>
+                        <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
+                            <span>View Full Breakdown</span>
+                            <span>&rarr;</span>
+                        </div>
+                    </div>
+                @elseif($hasExternalUrl)
+                    <a href="{{ $update->external_url }}" target="_blank" rel="noopener noreferrer"
+                        class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
+                        <div>
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{{ $update->category ?: 'PUBLISHED ARTICLE' }}</span>
+                            <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
+                                {{ $update->title }}
+                            </h3>
+                            <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ $update->summary }}</p>
+                        </div>
+                        <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
+                            <span>Read Article</span>
+                            <span>&rarr;</span>
+                        </div>
+                    </a>
+                @else
+                    <div onclick="openPreviewModal(@js($update->title), @js($update->category ?: 'Technical Whitepaper'), @js($update->summary))"
+                        class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{{ $update->category ?: 'TECHNICAL WHITEPAPER' }}</span>
+                                <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Preview</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
+                                {{ $update->title }}
+                            </h3>
+                            <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ $update->summary }}</p>
+                        </div>
+                        <div class="mt-4 flex items-center text-xs font-mono font-semibold text-slate-400 group-hover:text-cyan-300 gap-1.5">
+                            <span>In-Depth Writeup Coming Soon</span>
+                            <span>&rarr;</span>
+                        </div>
+                    </div>
+                @endif
             @empty
-                <a href="https://medium.com/@gobik1990" target="_blank" rel="noopener"
-                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all block group">
-                    <span class="text-xs font-mono text-cyan-400">CLOUD COST OPTIMIZATION</span>
-                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">How We Reduced AWS Infrastructure Costs by 38% Using Terraform</h3>
-                    <p class="text-slate-400 text-sm mt-2">A strategic breakdown of rightsizing AWS resources and automating lifecycle policies via Terraform IaC.</p>
-                </a>
-                <a href="https://medium.com/@gobik1990" target="_blank" rel="noopener"
-                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all block group">
-                    <span class="text-xs font-mono text-cyan-400">DEVOPS & AUTOMATION</span>
-                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Zero-Downtime CI/CD Pipelines for Enterprise Web Applications</h3>
-                    <p class="text-slate-400 text-sm mt-2">Architecting automated blue-green and canary delivery pipelines using GitHub Actions and container orchestration.</p>
-                </a>
-                <a id="journal-rose-villa" href="https://medium.com/@gobik1990" target="_blank" rel="noopener"
-                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all block group">
-                    <span class="text-xs font-mono text-cyan-400">PERFORMANCE ENGINEERING</span>
-                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Optimizing High-Traffic Laravel Applications on Constrained VPS Hosting</h3>
-                    <p class="text-slate-400 text-sm mt-2">Maximizing throughput and reducing database latency for Laravel 11 / PHP 8.2+ / MySQL 8.0 on resource-constrained environments.</p>
-                </a>
+                <div onclick="openPreviewModal('How We Reduced AWS Infrastructure Costs by 38% Using Terraform', 'CLOUD COST OPTIMIZATION', 'A strategic breakdown of rightsizing AWS resources and automating lifecycle policies via Terraform IaC.')"
+                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">CLOUD COST OPTIMIZATION</span>
+                            <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Preview</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">How We Reduced AWS Infrastructure Costs by 38% Using Terraform</h3>
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">A strategic breakdown of rightsizing AWS resources and automating lifecycle policies via Terraform IaC.</p>
+                    </div>
+                    <div class="mt-4 flex items-center text-xs font-mono font-semibold text-slate-400 group-hover:text-cyan-300 gap-1.5">
+                        <span>In-Depth Writeup Coming Soon</span>
+                        <span>&rarr;</span>
+                    </div>
+                </div>
+                <div onclick="openPreviewModal('Zero-Downtime CI/CD Pipelines for Enterprise Web Applications', 'DEVOPS & AUTOMATION', 'Architecting automated blue-green and canary delivery pipelines using GitHub Actions and container orchestration.')"
+                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">DEVOPS & AUTOMATION</span>
+                            <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Preview</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Zero-Downtime CI/CD Pipelines for Enterprise Web Applications</h3>
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">Architecting automated blue-green and canary delivery pipelines using GitHub Actions and container orchestration.</p>
+                    </div>
+                    <div class="mt-4 flex items-center text-xs font-mono font-semibold text-slate-400 group-hover:text-cyan-300 gap-1.5">
+                        <span>In-Depth Writeup Coming Soon</span>
+                        <span>&rarr;</span>
+                    </div>
+                </div>
+                <div onclick="openRoseVillaModal()"
+                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">PERFORMANCE ENGINEERING</span>
+                            <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Live Breakdown</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Optimizing High-Traffic Laravel Applications on Constrained VPS Hosting</h3>
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">Maximizing throughput and reducing database latency for Laravel 11 / PHP 8.2+ / MySQL 8.0 on resource-constrained environments.</p>
+                    </div>
+                    <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
+                        <span>View Full Breakdown</span>
+                        <span>&rarr;</span>
+                    </div>
+                </div>
             @endforelse
         </div>
     </section>
@@ -360,8 +444,166 @@
         </div>
     </div>
 
+    <!-- Rose Villa Case Study Breakdown Modal -->
+    <div id="rose-villa-modal"
+        class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[90vh] overflow-y-auto">
+            <button type="button" onclick="closeRoseVillaModal()"
+                class="absolute top-5 right-5 text-slate-400 hover:text-white text-2xl transition-colors">&times;</button>
 
+            <!-- Header Badges -->
+            <div class="flex flex-wrap items-center gap-2 mb-3">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                    Client Production System
+                </span>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+                    Laravel 11 &amp; Filament 3
+                </span>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/30">
+                    cPanel Deployment
+                </span>
+            </div>
 
+            <h3 class="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight">
+                Productized Backend &amp; Edge POS Infrastructure
+            </h3>
+            <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+                Full-stack production benchmark deployed for Rose Villa: A resilient, high-throughput point-of-sale and kitchen telemetry backend running on resource-constrained hosting.
+            </p>
+
+            <!-- Key Hard Metrics Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 p-4 rounded-xl bg-slate-950/70 border border-slate-800">
+                <div class="text-center sm:text-left">
+                    <div class="text-xl sm:text-2xl font-bold font-mono text-cyan-400">99.99%</div>
+                    <div class="text-[11px] font-mono text-slate-400 uppercase mt-0.5">Uptime SLA</div>
+                </div>
+                <div class="text-center sm:text-left">
+                    <div class="text-xl sm:text-2xl font-bold font-mono text-emerald-400">&lt;200ms</div>
+                    <div class="text-[11px] font-mono text-slate-400 uppercase mt-0.5">API &amp; Print Latency</div>
+                </div>
+                <div class="text-center sm:text-left">
+                    <div class="text-xl sm:text-2xl font-bold font-mono text-amber-400">50k/min</div>
+                    <div class="text-[11px] font-mono text-slate-400 uppercase mt-0.5">Request Capacity</div>
+                </div>
+                <div class="text-center sm:text-left">
+                    <div class="text-xl sm:text-2xl font-bold font-mono text-purple-400">1-Click</div>
+                    <div class="text-[11px] font-mono text-slate-400 uppercase mt-0.5">Atomic Deploy</div>
+                </div>
+            </div>
+
+            <!-- Deep Dive Breakdown Sections -->
+            <div class="space-y-4 text-sm text-slate-300 mb-8 leading-relaxed">
+                <div class="p-4 rounded-xl bg-slate-950/50 border border-slate-800/80">
+                    <h4 class="font-bold text-white text-base mb-1.5 flex items-center gap-2">
+                        <span class="text-cyan-400 font-mono text-sm">&gt;</span> Laravel 11 &amp; PHP 8.2+ Architecture
+                    </h4>
+                    <p class="text-slate-400 text-xs sm:text-sm">
+                        Built on Laravel 11 with strict typing and lightweight background job queues. Tuned Eloquent queries with eager-loading indexes to eliminate N+1 bottlenecks under peak dinner hour load surges.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-slate-950/50 border border-slate-800/80">
+                    <h4 class="font-bold text-white text-base mb-1.5 flex items-center gap-2">
+                        <span class="text-cyan-400 font-mono text-sm">&gt;</span> Filament v3 Real-Time Operations Panel
+                    </h4>
+                    <p class="text-slate-400 text-xs sm:text-sm">
+                        Custom administration workspace providing live sales telemetry, multi-register management, role-based table access, and inventory depletion tracking with zero frontend overhead.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-slate-950/50 border border-slate-800/80">
+                    <h4 class="font-bold text-white text-base mb-1.5 flex items-center gap-2">
+                        <span class="text-cyan-400 font-mono text-sm">&gt;</span> Zero-Downtime cPanel / Apache Deployment
+                    </h4>
+                    <p class="text-slate-400 text-xs sm:text-sm">
+                        Engineered automated zero-downtime deployment pipelines adapted for constrained cPanel environments using atomic symlinks, automated asset compilation, and safe database migration rollouts.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-slate-950/50 border border-slate-800/80">
+                    <h4 class="font-bold text-white text-base mb-1.5 flex items-center gap-2">
+                        <span class="text-cyan-400 font-mono text-sm">&gt;</span> Edge ESC/POS Hardware &amp; Cloud Disaster Recovery
+                    </h4>
+                    <p class="text-slate-400 text-xs sm:text-sm">
+                        Direct raw ESC/POS network socket integration for kitchen thermal printers, paired with automated encrypted offsite MySQL snapshots taken hourly and synced to AWS S3.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-800">
+                <button type="button" onclick="closeRoseVillaModal(); toggleAuditModal();"
+                    class="w-full sm:w-auto px-6 py-3 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold rounded-lg transition-all text-center text-sm">
+                    Request Similar Architecture
+                </button>
+                <button type="button" onclick="closeRoseVillaModal()"
+                    class="w-full sm:w-auto px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-lg transition-all text-center text-sm">
+                    Close Breakdown
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- In-Depth Writeup Coming Soon / Preview Modal -->
+    <div id="preview-modal"
+        class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-xl w-full p-6 sm:p-8 relative shadow-2xl my-8">
+            <button type="button" onclick="closePreviewModal()"
+                class="absolute top-5 right-5 text-slate-400 hover:text-white text-2xl transition-colors">&times;</button>
+
+            <!-- Badge -->
+            <div class="flex items-center gap-2 mb-3">
+                <span id="preview-modal-category"
+                    class="text-xs font-mono text-cyan-400 uppercase tracking-wider font-semibold">TECHNICAL WHITEPAPER</span>
+                <span class="text-xs font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded font-medium">In Peer Review</span>
+            </div>
+
+            <h3 id="preview-modal-title" class="text-xl sm:text-2xl font-bold text-white mb-3 leading-snug">
+                In-Depth Technical Writeup Coming Soon
+            </h3>
+
+            <p id="preview-modal-description" class="text-slate-300 text-sm mb-6 leading-relaxed">
+                Detailed architecture breakdown, performance benchmarks, and implementation code.
+            </p>
+
+            <div class="p-4 rounded-xl bg-slate-950/60 border border-slate-800 mb-6 space-y-2 text-xs font-mono text-slate-400">
+                <div class="flex items-center gap-2 text-cyan-300 font-semibold">
+                    <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Full Benchmark Specs &amp; IaC Blueprints</span>
+                </div>
+                <div class="flex items-center gap-2 text-cyan-300 font-semibold">
+                    <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Production Telemetry &amp; Cost Data</span>
+                </div>
+                <div class="flex items-center gap-2 text-cyan-300 font-semibold">
+                    <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Sanitized Code Artifacts &amp; Reproduction Guide</span>
+                </div>
+            </div>
+
+            <p class="text-xs text-slate-500 mb-6 leading-relaxed">
+                This writeup is currently undergoing final peer review and IP sanitization. If you require immediate architectural details or consultation for your organization, request an early briefing below.
+            </p>
+
+            <!-- Actions -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-800">
+                <button type="button" onclick="closePreviewModal(); toggleAuditModal();"
+                    class="w-full sm:w-auto px-5 py-2.5 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold rounded-lg transition-all text-center text-xs uppercase tracking-wider">
+                    Request Architecture Briefing
+                </button>
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                    <a href="https://medium.com/@gobik1990" target="_blank" rel="noopener noreferrer"
+                        class="text-xs font-mono text-cyan-400 hover:text-cyan-300 hover:underline">
+                        Founder Medium &rarr;
+                    </a>
+                    <button type="button" onclick="closePreviewModal()"
+                        class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg transition-all">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Founder Profile & Trust Footer (With Location & Social Proof Links) -->
     <footer class="bg-slate-950 border-t border-slate-900 py-16 px-4 sm:px-6 lg:px-8">
@@ -388,9 +630,17 @@
             <!-- Social Proof Links & Legal -->
             <div class="flex flex-col md:items-end gap-3">
                 <div class="flex flex-wrap items-center gap-6 text-sm font-medium text-slate-400">
+                    <a href="https://github.com/gobik1990" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-cyan-400 transition-colors">GitHub</a>
+                    <a href="https://www.linkedin.com/in/gobikrishna-subramaniyam" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-cyan-400 transition-colors">LinkedIn</a>
+                    <a href="https://medium.com/@gobik1990" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-cyan-400 transition-colors">Medium</a>
                     @foreach($siteProfile->all_social_links as $link)
-                        <a href="{{ $link['url'] }}" target="_blank" rel="noopener noreferrer"
-                            class="hover:text-cyan-400 transition-colors">{{ $link['label'] }}</a>
+                        @if(!in_array(strtolower($link['label']), ['github', 'linkedin', 'medium']))
+                            <a href="{{ $link['url'] }}" target="_blank" rel="noopener noreferrer"
+                                class="hover:text-cyan-400 transition-colors">{{ $link['label'] }}</a>
+                        @endif
                     @endforeach
                 </div>
                 @if(!empty($siteProfile->phone))
@@ -401,16 +651,63 @@
             </div>
         </div>
 
-
-
     </footer>
 
-    <!-- Terminal JavaScript Command Engine -->
+    <!-- Terminal JavaScript Command Engine & Modal Controllers -->
     <script>
         function toggleAuditModal() {
             const modal = document.getElementById('audit-modal');
-            modal.classList.toggle('hidden');
+            if (modal) modal.classList.toggle('hidden');
         }
+
+        function openRoseVillaModal() {
+            const modal = document.getElementById('rose-villa-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeRoseVillaModal() {
+            const modal = document.getElementById('rose-villa-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function toggleRoseVillaModal() {
+            const modal = document.getElementById('rose-villa-modal');
+            if (modal) modal.classList.toggle('hidden');
+        }
+
+        function openPreviewModal(title, category, description) {
+            const modal = document.getElementById('preview-modal');
+            if (!modal) return;
+            if (title) document.getElementById('preview-modal-title').textContent = title;
+            if (category) document.getElementById('preview-modal-category').textContent = category;
+            if (description) document.getElementById('preview-modal-description').textContent = description;
+            modal.classList.remove('hidden');
+        }
+
+        function closePreviewModal() {
+            const modal = document.getElementById('preview-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        window.addEventListener('click', (e) => {
+            const rvModal = document.getElementById('rose-villa-modal');
+            const prevModal = document.getElementById('preview-modal');
+            const auditModal = document.getElementById('audit-modal');
+            if (e.target === rvModal) closeRoseVillaModal();
+            if (e.target === prevModal) closePreviewModal();
+            if (e.target === auditModal) toggleAuditModal();
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeRoseVillaModal();
+                closePreviewModal();
+                const auditModal = document.getElementById('audit-modal');
+                if (auditModal && !auditModal.classList.contains('hidden')) {
+                    toggleAuditModal();
+                }
+            }
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
             @if(session('audit_success') || $errors->any())

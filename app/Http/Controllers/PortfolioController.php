@@ -21,10 +21,9 @@ class PortfolioController extends Controller
                 // Parse comma-separated tech stack or use it as metrics/tags
                 $tags = array_filter(array_map('trim', explode(',', $project->tech_stack ?? '')));
                 if (empty($tags)) {
-                    $tags = ['38% AWS Cost Reduction', 'Zero-Downtime Deployment', '99.99% Uptime'];
+                    $tags = ['100% Automated Policy Checks', 'Zero Hardcoded Secrets', '95%+ CIS Compliance'];
                 }
 
-                $link = $project->article_url ?: $project->live_url;
                 $linkText = 'View Benchmark Details';
 
                 $isRoseVilla = str_contains(strtolower($project->title ?? ''), 'rose villa')
@@ -32,27 +31,33 @@ class PortfolioController extends Controller
                     || str_contains(strtolower($project->category ?? ''), 'client');
 
                 if ($isRoseVilla) {
-                    $link = '#journal-rose-villa';
-                    $linkText = 'View Benchmark Details';
-                } elseif ($project->article_url) {
+                    $actionType = 'rose_villa';
+                    $link = '#rose-villa-modal';
+                } elseif ($project->article_url && !str_starts_with($project->article_url, '#') && !str_contains($project->article_url, '#journal')) {
+                    $actionType = 'external';
+                    $link = $project->article_url;
                     $linkText = str_contains($project->article_url, 'github') ? 'GitHub Repo' : 'View Benchmark Details';
-                } elseif ($project->live_url) {
-                    $linkText = 'Live Project';
+                } else {
+                    $actionType = 'preview';
+                    $link = '#preview-modal';
                 }
 
                 return [
+                    'id' => $project->id,
                     'title' => $project->title,
                     'category' => $project->category ?: 'Cloud Architecture & IaC',
                     'type' => $isRoseVilla ? 'Client Production System' : 'Infrastructure Lab Benchmark',
                     'description' => $project->description,
                     'metrics' => array_slice($tags, 0, 3),
-                    'link' => $link ?: '#audit-modal',
+                    'link' => $link,
                     'link_text' => $linkText,
+                    'action_type' => $actionType,
                 ];
             })->toArray();
         } else {
             $caseStudies = [
                 [
+                    'id' => 1,
                     'title' => 'Enterprise EKS & AWS Cost Optimization',
                     'category' => 'Cloud Architecture & IaC',
                     'type' => 'Infrastructure Lab Benchmark',
@@ -62,23 +67,12 @@ class PortfolioController extends Controller
                         'Zero-Downtime Deployment',
                         '99.99% Uptime',
                     ],
-                    'link' => 'https://github.com/gobik1990/mcp-docker',
+                    'link' => '#preview-modal',
                     'link_text' => 'View Benchmark Details',
+                    'action_type' => 'preview',
                 ],
                 [
-                    'title' => 'Automated DevOps CI/CD & Security Scanning',
-                    'category' => 'DevSecOps & Automation',
-                    'type' => 'Infrastructure Lab Benchmark',
-                    'description' => 'Built GitOps pipelines using GitHub Actions, ArgoCD, and Trivy security scanners to enforce strict compliance and automated image deployments.',
-                    'metrics' => [
-                        '70% Faster Release Cycles',
-                        'Automated Vulnerability Checks',
-                        '100% Infrastructure as Code',
-                    ],
-                    'link' => 'https://medium.com/@gobik1990',
-                    'link_text' => 'View Benchmark Details',
-                ],
-                [
+                    'id' => 2,
                     'title' => 'Productized Backend & Edge POS Infrastructure (Rose Villa)',
                     'category' => 'Productized B2B Deployments',
                     'type' => 'Client Production System',
@@ -88,8 +82,24 @@ class PortfolioController extends Controller
                         'Automated Offsite Backups',
                         '50k req/min Capacity',
                     ],
-                    'link' => '#journal-rose-villa',
+                    'link' => '#rose-villa-modal',
                     'link_text' => 'View Benchmark Details',
+                    'action_type' => 'rose_villa',
+                ],
+                [
+                    'id' => 3,
+                    'title' => 'Automated Cloud Governance & IaC Compliance Engine',
+                    'category' => 'DevSecOps & Compliance',
+                    'type' => 'Infrastructure Lab Benchmark',
+                    'description' => 'Engineered continuous compliance rules checking infrastructure code against CIS benchmarks, automatically catching misconfigured S3 buckets and exposed security groups prior to merge.',
+                    'metrics' => [
+                        '100% Automated Policy Checks',
+                        'Zero Hardcoded Secrets',
+                        '95%+ CIS Compliance',
+                    ],
+                    'link' => '#preview-modal',
+                    'link_text' => 'View Benchmark Details',
+                    'action_type' => 'preview',
                 ],
             ];
         }
