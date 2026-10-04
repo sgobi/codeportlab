@@ -180,12 +180,14 @@
                             </span>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-4 leading-snug">{{ $study['title'] }}</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-6">{{ $study['description'] }}</p>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">{{ str_ireplace('zero-downtime migration', 'migration', $study['description']) }}</p>
 
                         <!-- Metrics Badges -->
                         <div class="flex flex-wrap gap-2 mb-6">
                             @foreach($study['metrics'] as $metric)
-                                @if(preg_match('/(99\.99%|50k\/min|<200ms|&lt;200ms|38%|95%\+)/i', $metric))
+                                @if(stripos($metric, 'zero-downtime') !== false)
+                                    {{-- removed zero-downtime badge --}}
+                                @elseif(preg_match('/(99\.99%|50k\/min|<200ms|&lt;200ms|38%|95%\+)/i', $metric))
                                     {{-- TODO: add measured figure --}}
                                 @else
                                     <span
@@ -249,7 +251,7 @@
                             class="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold">Built by Design</span>
                     </div>
                     <p class="text-slate-200 text-sm sm:text-base font-medium leading-relaxed">
-                        Engineered for zero-downtime, strict IaC auditability, and cloud cost efficiency across every production deployment.
+                        Engineered for reliable deployments, strict IaC auditability, and cloud cost efficiency across every production deployment.
                     </p>
                 </div>
             </div>
@@ -330,14 +332,14 @@
                     </div>
                 @endif
             @empty
-                <div onclick="openPreviewModal('How We Reduced AWS Infrastructure Costs by 38% Using Terraform', 'CLOUD COST OPTIMIZATION', 'A strategic breakdown of rightsizing AWS resources and automating lifecycle policies via Terraform IaC.')"
+                <div onclick="openPreviewModal('Reducing AWS Infrastructure Costs with Terraform', 'CLOUD COST OPTIMIZATION', 'A strategic breakdown of rightsizing AWS resources and automating lifecycle policies via Terraform IaC.')"
                     class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">CLOUD COST OPTIMIZATION</span>
                             <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Planned</span>
                         </div>
-                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">How We Reduced AWS Infrastructure Costs by 38% Using Terraform</h3>
+                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Reducing AWS Infrastructure Costs with Terraform</h3>
                         <p class="text-slate-400 text-sm mt-2 leading-relaxed">A strategic breakdown of rightsizing AWS resources and automating lifecycle policies via Terraform IaC.</p>
                     </div>
                     <div class="mt-4 flex items-center text-xs font-mono font-semibold text-slate-400 group-hover:text-cyan-300 gap-1.5">
@@ -345,14 +347,14 @@
                         <span>&rarr;</span>
                     </div>
                 </div>
-                <div onclick="openPreviewModal('Zero-Downtime CI/CD Pipelines for Enterprise Web Applications', 'DEVOPS & AUTOMATION', 'Architecting automated blue-green and canary delivery pipelines using GitHub Actions and container orchestration.')"
+                <div onclick="openPreviewModal('CI/CD Pipelines for Web Applications', 'DEVOPS & AUTOMATION', 'Architecting automated blue-green and canary delivery pipelines using GitHub Actions and container orchestration.')"
                     class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">DEVOPS & AUTOMATION</span>
                             <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Planned</span>
                         </div>
-                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Zero-Downtime CI/CD Pipelines for Enterprise Web Applications</h3>
+                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">CI/CD Pipelines for Web Applications</h3>
                         <p class="text-slate-400 text-sm mt-2 leading-relaxed">Architecting automated blue-green and canary delivery pipelines using GitHub Actions and container orchestration.</p>
                     </div>
                     <div class="mt-4 flex items-center text-xs font-mono font-semibold text-slate-400 group-hover:text-cyan-300 gap-1.5">
@@ -364,7 +366,7 @@
                     class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">CI/CD &amp; AUTOMATION</span>
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">DevOps &amp; CI/CD</span>
                             <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
                         </div>
                         <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Zero-Touch Deployments on Shared cPanel Hosting with GitHub Actions</h3>
