@@ -340,10 +340,6 @@
                             </h3>
                             <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ $update->summary }}</p>
                         </div>
-                        <div class="mt-4 flex items-center text-xs font-mono font-semibold text-slate-400 group-hover:text-cyan-300 gap-1.5">
-                            <span>In-Depth Writeup Coming Soon</span>
-                            <span>&rarr;</span>
-                        </div>
                     </div>
                 @endif
             @empty
@@ -357,10 +353,6 @@
                         <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Reducing AWS Infrastructure Costs with Terraform</h3>
                         <p class="text-slate-400 text-sm mt-2 leading-relaxed">A strategic breakdown of rightsizing AWS resources and automating lifecycle policies via Terraform IaC.</p>
                     </div>
-                    <div class="mt-4 flex items-center text-xs font-mono font-semibold text-slate-400 group-hover:text-cyan-300 gap-1.5">
-                        <span>In-Depth Writeup Coming Soon</span>
-                        <span>&rarr;</span>
-                    </div>
                 </div>
                 <div onclick="openPreviewModal('CI/CD Pipelines for Web Applications', 'DEVOPS & AUTOMATION', 'Architecting automated blue-green and canary delivery pipelines using GitHub Actions and container orchestration.')"
                     class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
@@ -371,10 +363,6 @@
                         </div>
                         <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">CI/CD Pipelines for Web Applications</h3>
                         <p class="text-slate-400 text-sm mt-2 leading-relaxed">Architecting automated blue-green and canary delivery pipelines using GitHub Actions and container orchestration.</p>
-                    </div>
-                    <div class="mt-4 flex items-center text-xs font-mono font-semibold text-slate-400 group-hover:text-cyan-300 gap-1.5">
-                        <span>In-Depth Writeup Coming Soon</span>
-                        <span>&rarr;</span>
                     </div>
                 </div>
                 <a href="https://medium.com/@gobik1990/zero-touch-deployments-on-shared-cpanel-hosting-with-github-actions-010d1e875444" target="_blank" rel="noopener noreferrer"
@@ -501,15 +489,7 @@
             </p>
 
             <!-- Key Hard Metrics Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 p-4 rounded-xl bg-slate-950/70 border border-slate-800">
-                {{-- TODO: add measured figure --}}
-                {{-- TODO: add measured figure --}}
-                {{-- TODO: add measured figure --}}
-                <div class="text-center sm:text-left">
-                    <div class="text-xl sm:text-2xl font-bold font-mono text-purple-400">1-Click</div>
-                    <div class="text-[11px] font-mono text-slate-400 uppercase mt-0.5">Atomic Deploy</div>
-                </div>
-            </div>
+            {{-- TODO: add measured figures --}}
 
             <!-- Deep Dive Breakdown Sections -->
             <div class="space-y-4 text-sm text-slate-300 mb-8 leading-relaxed">
@@ -610,7 +590,7 @@
             </div>
 
             <p class="text-xs text-slate-500 mb-6 leading-relaxed">
-                This writeup is currently undergoing final peer review and IP sanitization. If you require immediate architectural details or consultation for your organization, request an early briefing below.
+                A detailed writeup is planned. Contact me for an architecture briefing.
             </p>
 
             <!-- Actions -->
