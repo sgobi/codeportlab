@@ -168,7 +168,31 @@
         <div class="grid lg:grid-cols-3 gap-8">
             @foreach($caseStudies as $study)
                 @php
-                    $cleanDescription = str_ireplace('zero-downtime migration', 'migration', $study['description']);
+                    $isRoseVilla = (isset($study['action_type']) && $study['action_type'] === 'rose_villa')
+                        || str_contains(strtolower($study['title'] ?? ''), 'rose villa')
+                        || str_contains(strtolower($study['category'] ?? ''), 'hospitality');
+
+                    $isEks = !$isRoseVilla && (
+                        str_contains(strtolower($study['title'] ?? ''), 'eks')
+                        || str_contains(strtolower($study['title'] ?? ''), 'kubernetes')
+                        || str_contains(strtolower($study['category'] ?? ''), 'kubernetes')
+                        || str_contains(strtolower($study['description'] ?? ''), 'eks')
+                        || str_contains(strtolower($study['description'] ?? ''), 'monolith')
+                        || $loop->iteration === 2
+                    );
+
+                    $isGov = !$isRoseVilla && !$isEks;
+
+                    if ($isGov) {
+                        $cleanDescription = 'A lab project that checks Terraform code against CIS-style rules to catch misconfigured S3 buckets and open security groups before merge.';
+                    } elseif ($isEks) {
+                        $cleanDescription = 'A lab project exploring a migration of monolithic workloads to AWS EKS using Terraform and GitOps.';
+                    } else {
+                        $cleanDescription = str_ireplace('zero-downtime migration', 'migration', $study['description']);
+                    }
+
+                    $cleanTitle = preg_replace('/(38%|99\.99%|95%(\+)?)/i', '', $study['title'] ?? '');
+                    $cleanCategory = preg_replace('/(38%|99\.99%|95%(\+)?)/i', '', $study['category'] ?? '');
                     $badgeType = $study['type'] ?? 'Benchmark';
                     $hasZeroDowntimeType = stripos($badgeType, 'zero-downtime') !== false;
                 @endphp
@@ -178,7 +202,7 @@
                         <!-- Type Badge & Category Header -->
                         <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
                             <span
-                                class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{{ $study['category'] }}</span>
+                                class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{{ $cleanCategory }}</span>
                             @if(!$hasZeroDowntimeType)
                                 <span
                                     class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-medium {{ str_contains($badgeType, 'Client') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-purple-500/10 text-purple-300 border border-purple-500/30' }}">
@@ -186,15 +210,24 @@
                                 </span>
                             @endif
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-4 leading-snug">{{ $study['title'] }}</h3>
+                        <h3 class="text-xl font-bold text-white mb-4 leading-snug">{{ $cleanTitle }}</h3>
                         <p class="text-slate-400 text-sm leading-relaxed mb-6">{{ $cleanDescription }}</p>
 
                         <!-- Metrics Badges -->
                         <div class="flex flex-wrap gap-2 mb-6">
                             @foreach($study['metrics'] as $metric)
-                                @if(stripos($metric, 'zero-downtime') !== false)
-                                    {{-- removed zero-downtime badge --}}
-                                @elseif(preg_match('/(99\.99%|50k\/min|<200ms|&lt;200ms|38%|95%\+)/i', $metric))
+                                @php
+                                    $isDeletedBadge = stripos($metric, 'zero-downtime') !== false
+                                        || stripos($metric, '100% Automated Policy Checks') !== false
+                                        || stripos($metric, 'Automated Policy Checks') !== false
+                                        || stripos($metric, 'Zero Hardcoded Secrets') !== false
+                                        || stripos($metric, 'Hardcoded Secrets') !== false;
+                                    
+                                    $isMeasuredFigureTodo = preg_match('/(99\.99%|50k\/min|<200ms|&lt;200ms|38%|95%\+?)/i', $metric);
+                                @endphp
+                                @if($isDeletedBadge)
+                                    {{-- removed unverified/unwanted badge --}}
+                                @elseif($isMeasuredFigureTodo)
                                     {{-- TODO: add measured figure --}}
                                 @else
                                     <span
@@ -213,7 +246,7 @@
                             <span class="text-xs">&rarr;</span>
                         </button>
                     @elseif(isset($study['action_type']) && $study['action_type'] === 'preview')
-                        <button type="button" onclick="openPreviewModal(@js($study['title']), @js($study['category']), @js($cleanDescription))"
+                        <button type="button" onclick="openPreviewModal(@js($cleanTitle), @js($cleanCategory), @js($cleanDescription))"
                             class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 hover:text-cyan-300 px-4 py-2 rounded transition-all w-fit cursor-pointer">
                             <span>{{ $study['link_text'] ?? 'View Benchmark Details' }}</span>
                             <span class="text-xs">&rarr;</span>
@@ -231,7 +264,7 @@
                             <span class="text-xs">&rarr;</span>
                         </a>
                     @else
-                        <button type="button" onclick="openPreviewModal(@js($study['title']), @js($study['category']), @js($cleanDescription))"
+                        <button type="button" onclick="openPreviewModal(@js($cleanTitle), @js($cleanCategory), @js($cleanDescription))"
                             class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 hover:text-cyan-300 px-4 py-2 rounded transition-all w-fit cursor-pointer">
                             <span>{{ $study['link_text'] ?? 'View Benchmark Details' }}</span>
                             <span class="text-xs">&rarr;</span>
@@ -566,6 +599,8 @@
                 <span class="text-xs font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded font-medium">In Peer Review</span>
             </div>
 
+            {{-- TODO: add measured figure --}}
+
             <h3 id="preview-modal-title" class="text-xl sm:text-2xl font-bold text-white mb-3 leading-snug">
                 In-Depth Technical Writeup Coming Soon
             </h3>
@@ -686,9 +721,10 @@
         function openPreviewModal(title, category, description) {
             const modal = document.getElementById('preview-modal');
             if (!modal) return;
-            if (title) document.getElementById('preview-modal-title').textContent = title;
-            if (category) document.getElementById('preview-modal-category').textContent = category;
-            if (description) document.getElementById('preview-modal-description').textContent = description;
+            const sanitize = (str) => str ? str.replace(/(38%|99\.99%|95%(\+)?)/gi, '') : '';
+            if (title) document.getElementById('preview-modal-title').textContent = sanitize(title);
+            if (category) document.getElementById('preview-modal-category').textContent = sanitize(category);
+            if (description) document.getElementById('preview-modal-description').textContent = sanitize(description);
             modal.classList.remove('hidden');
         }
 
