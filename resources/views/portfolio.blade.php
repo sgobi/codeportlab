@@ -167,6 +167,11 @@
         </div>
         <div class="grid lg:grid-cols-3 gap-8">
             @foreach($caseStudies as $study)
+                @php
+                    $cleanDescription = str_ireplace('zero-downtime migration', 'migration', $study['description']);
+                    $badgeType = $study['type'] ?? 'Benchmark';
+                    $hasZeroDowntimeType = stripos($badgeType, 'zero-downtime') !== false;
+                @endphp
                 <div
                     class="bg-slate-900/80 border border-slate-800 rounded-xl p-6 flex flex-col justify-between hover:border-slate-700 transition-all">
                     <div>
@@ -174,13 +179,15 @@
                         <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
                             <span
                                 class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{{ $study['category'] }}</span>
-                            <span
-                                class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-medium {{ str_contains($study['type'] ?? '', 'Client') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-purple-500/10 text-purple-300 border border-purple-500/30' }}">
-                                {{ $study['type'] ?? 'Benchmark' }}
-                            </span>
+                            @if(!$hasZeroDowntimeType)
+                                <span
+                                    class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-medium {{ str_contains($badgeType, 'Client') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-purple-500/10 text-purple-300 border border-purple-500/30' }}">
+                                    {{ $badgeType }}
+                                </span>
+                            @endif
                         </div>
                         <h3 class="text-xl font-bold text-white mb-4 leading-snug">{{ $study['title'] }}</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-6">{{ str_ireplace('zero-downtime migration', 'migration', $study['description']) }}</p>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">{{ $cleanDescription }}</p>
 
                         <!-- Metrics Badges -->
                         <div class="flex flex-wrap gap-2 mb-6">
@@ -206,7 +213,7 @@
                             <span class="text-xs">&rarr;</span>
                         </button>
                     @elseif(isset($study['action_type']) && $study['action_type'] === 'preview')
-                        <button type="button" onclick="openPreviewModal(@js($study['title']), @js($study['category']), @js($study['description']))"
+                        <button type="button" onclick="openPreviewModal(@js($study['title']), @js($study['category']), @js($cleanDescription))"
                             class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 hover:text-cyan-300 px-4 py-2 rounded transition-all w-fit cursor-pointer">
                             <span>{{ $study['link_text'] ?? 'View Benchmark Details' }}</span>
                             <span class="text-xs">&rarr;</span>
@@ -224,7 +231,7 @@
                             <span class="text-xs">&rarr;</span>
                         </a>
                     @else
-                        <button type="button" onclick="openPreviewModal(@js($study['title']), @js($study['category']), @js($study['description']))"
+                        <button type="button" onclick="openPreviewModal(@js($study['title']), @js($study['category']), @js($cleanDescription))"
                             class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 hover:text-cyan-300 px-4 py-2 rounded transition-all w-fit cursor-pointer">
                             <span>{{ $study['link_text'] ?? 'View Benchmark Details' }}</span>
                             <span class="text-xs">&rarr;</span>
@@ -279,24 +286,24 @@
                         && !str_contains($update->external_url, '#journal');
                 @endphp
 
-                @if($isRoseVillaJournal)
-                    <div onclick="openRoseVillaModal()"
-                        class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
+                @if($isRoseVillaJournal || $loop->iteration === 3)
+                    <a href="https://medium.com/@gobik1990/zero-touch-deployments-on-shared-cpanel-hosting-with-github-actions-010d1e875444" target="_blank" rel="noopener noreferrer"
+                        class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
                         <div>
                             <div class="flex items-center justify-between mb-2">
-                                <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{{ $update->category ?: 'CASE STUDY' }}</span>
-                                <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Live Breakdown</span>
+                                <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">DevOps &amp; CI/CD</span>
+                                <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
                             </div>
-                            <h3 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
-                                {{ $update->title }}
+                            <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
+                                Zero-Touch Deployments on Shared cPanel Hosting with GitHub Actions
                             </h3>
-                            <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ $update->summary }}</p>
+                            <p class="text-slate-400 text-sm mt-2 leading-relaxed">CI/CD for shared cPanel with no SSH: GitHub Actions, FTPS sync, a key-protected PHP deploy hook, and a health check.</p>
                         </div>
                         <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
-                            <span>View Full Breakdown</span>
+                            <span>Read Article</span>
                             <span>&rarr;</span>
                         </div>
-                    </div>
+                    </a>
                 @elseif($hasExternalUrl)
                     <a href="{{ $update->external_url }}" target="_blank" rel="noopener noreferrer"
                         class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
@@ -313,7 +320,15 @@
                         </div>
                     </a>
                 @else
-                    <div onclick="openPreviewModal(@js($update->title), @js($update->category ?: 'Technical Whitepaper'), @js($update->summary))"
+                    @php
+                        $displayTitle = $update->title;
+                        if ($loop->iteration === 1 || (str_contains(strtolower($update->title), 'aws') && str_contains(strtolower($update->title), 'terraform'))) {
+                            $displayTitle = 'Reducing AWS Infrastructure Costs with Terraform';
+                        } elseif ($loop->iteration === 2 || str_contains(strtolower($update->title), 'ci/cd')) {
+                            $displayTitle = 'CI/CD Pipelines for Web Applications';
+                        }
+                    @endphp
+                    <div onclick="openPreviewModal(@js($displayTitle), @js($update->category ?: 'Technical Whitepaper'), @js($update->summary))"
                         class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
                         <div>
                             <div class="flex items-center justify-between mb-2">
@@ -321,7 +336,7 @@
                                 <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Planned</span>
                             </div>
                             <h3 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
-                                {{ $update->title }}
+                                {{ $displayTitle }}
                             </h3>
                             <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ $update->summary }}</p>
                         </div>
