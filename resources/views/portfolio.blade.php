@@ -5,6 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $siteProfile->brand_name . $siteProfile->brand_accent }} | {{ $siteProfile->tagline }}</title>
+    <link rel="canonical" href="https://codeportlab.com/">
+    <meta name="description" content="Production infrastructure, automated CI/CD pipelines, and cloud engineering projects by {{ $siteProfile->founder_name }}.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeportlab.com/">
+    <meta property="og:title" content="{{ $siteProfile->brand_name . $siteProfile->brand_accent }} | {{ $siteProfile->tagline }}">
+    <meta property="og:description" content="Production infrastructure, automated CI/CD pipelines, and cloud engineering projects by {{ $siteProfile->founder_name }}.">
+    @if($siteProfile->logo_url)
+    <meta property="og:image" content="{{ $siteProfile->logo_url }}">
+    @endif
     <link rel="icon" type="image/png" href="{{ $siteProfile->logo_url }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,7 +72,7 @@
             Cloud Infrastructure & DevOps Engineering for High-Growth Teams.
         </h1>
         <p class="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            We build, secure, and scale production environments using Terraform IaC, Automated CI/CD Pipelines,
+            I build, secure, and scale production environments using Terraform IaC, Automated CI/CD Pipelines,
             AWS/Azure Cloud Architectures, and Laravel 11 / PHP 8.2+ / MySQL 8.0 Edge Infrastructure.
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -154,8 +163,7 @@
     <section id="case-studies" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-900">
         <div class="text-center mb-16">
             <h2 class="text-3xl font-bold text-white tracking-tight mb-4">Engineering Case Studies</h2>
-            <p class="text-slate-400 max-w-2xl mx-auto">Real-world production benchmarks and infrastructure outcomes
-                delivered for clients.</p>
+            <p class="text-slate-400 max-w-2xl mx-auto">Production work and engineering lab projects.</p>
         </div>
         <div class="grid lg:grid-cols-3 gap-8">
             @foreach($caseStudies as $study)
@@ -177,10 +185,14 @@
                         <!-- Metrics Badges -->
                         <div class="flex flex-wrap gap-2 mb-6">
                             @foreach($study['metrics'] as $metric)
-                                <span
-                                    class="px-3 py-1 rounded bg-slate-800 border border-slate-700 text-cyan-300 font-mono text-xs font-medium">
-                                    {{ $metric }}
-                                </span>
+                                @if(preg_match('/(99\.99%|50k\/min|<200ms|&lt;200ms|38%|95%\+)/i', $metric))
+                                    {{-- TODO: add measured figure --}}
+                                @else
+                                    <span
+                                        class="px-3 py-1 rounded bg-slate-800 border border-slate-700 text-cyan-300 font-mono text-xs font-medium">
+                                        {{ $metric }}
+                                    </span>
+                                @endif
                             @endforeach
                         </div>
                     </div>
@@ -231,7 +243,7 @@
                 <div>
                     <div class="flex flex-wrap items-center gap-2 mb-1">
                         <span
-                            class="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold">Our Core Engineering Commitment</span>
+                            class="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold">My Core Engineering Commitment</span>
                         <span class="text-xs font-mono text-slate-600">/</span>
                         <span
                             class="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold">Built by Design</span>
@@ -304,7 +316,7 @@
                         <div>
                             <div class="flex items-center justify-between mb-2">
                                 <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{{ $update->category ?: 'TECHNICAL WHITEPAPER' }}</span>
-                                <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Preview</span>
+                                <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Planned</span>
                             </div>
                             <h3 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
                                 {{ $update->title }}
@@ -323,7 +335,7 @@
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">CLOUD COST OPTIMIZATION</span>
-                            <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Preview</span>
+                            <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Planned</span>
                         </div>
                         <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">How We Reduced AWS Infrastructure Costs by 38% Using Terraform</h3>
                         <p class="text-slate-400 text-sm mt-2 leading-relaxed">A strategic breakdown of rightsizing AWS resources and automating lifecycle policies via Terraform IaC.</p>
@@ -338,7 +350,7 @@
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">DEVOPS & AUTOMATION</span>
-                            <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Preview</span>
+                            <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Planned</span>
                         </div>
                         <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Zero-Downtime CI/CD Pipelines for Enterprise Web Applications</h3>
                         <p class="text-slate-400 text-sm mt-2 leading-relaxed">Architecting automated blue-green and canary delivery pipelines using GitHub Actions and container orchestration.</p>
@@ -348,21 +360,21 @@
                         <span>&rarr;</span>
                     </div>
                 </div>
-                <div onclick="openRoseVillaModal()"
-                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
+                <a href="https://medium.com/@gobik1990/zero-touch-deployments-on-shared-cpanel-hosting-with-github-actions-010d1e875444" target="_blank" rel="noopener noreferrer"
+                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">PERFORMANCE ENGINEERING</span>
-                            <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Live Breakdown</span>
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">CI/CD &amp; AUTOMATION</span>
+                            <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
                         </div>
-                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Optimizing High-Traffic Laravel Applications on Constrained VPS Hosting</h3>
-                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">Maximizing throughput and reducing database latency for Laravel 11 / PHP 8.2+ / MySQL 8.0 on resource-constrained environments.</p>
+                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Zero-Touch Deployments on Shared cPanel Hosting with GitHub Actions</h3>
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">CI/CD for shared cPanel with no SSH: GitHub Actions, FTPS sync, a key-protected PHP deploy hook, and a health check.</p>
                     </div>
                     <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
-                        <span>View Full Breakdown</span>
+                        <span>Read Article</span>
                         <span>&rarr;</span>
                     </div>
-                </div>
+                </a>
             @endforelse
         </div>
     </section>
@@ -373,7 +385,7 @@
             <span class="text-xs font-mono text-cyan-400 uppercase tracking-widest">GET IN TOUCH</span>
             <h2 class="text-3xl md:text-4xl font-bold text-white mt-2 mb-4">Ready to Optimize Your Infrastructure?
             </h2>
-            <p class="text-slate-400 max-w-xl mx-auto mb-8">Schedule a 30-minute cloud assessment or send us your
+            <p class="text-slate-400 max-w-xl mx-auto mb-8">Schedule a 30-minute cloud assessment or send me your
                 requirements.</p>
 
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -397,7 +409,7 @@
                 class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">&times;</button>
 
             <h3 class="text-2xl font-bold text-white mb-2">Book Infrastructure Audit</h3>
-            <p class="text-slate-400 text-sm mb-6">Fill in your email and primary cloud stack. We will respond
+            <p class="text-slate-400 text-sm mb-6">Fill in your email and primary cloud stack. I will respond
                 within 24 hours.</p>
 
             @if(session('audit_success'))
@@ -473,18 +485,9 @@
 
             <!-- Key Hard Metrics Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 p-4 rounded-xl bg-slate-950/70 border border-slate-800">
-                <div class="text-center sm:text-left">
-                    <div class="text-xl sm:text-2xl font-bold font-mono text-cyan-400">99.99%</div>
-                    <div class="text-[11px] font-mono text-slate-400 uppercase mt-0.5">Uptime SLA</div>
-                </div>
-                <div class="text-center sm:text-left">
-                    <div class="text-xl sm:text-2xl font-bold font-mono text-emerald-400">&lt;200ms</div>
-                    <div class="text-[11px] font-mono text-slate-400 uppercase mt-0.5">API &amp; Print Latency</div>
-                </div>
-                <div class="text-center sm:text-left">
-                    <div class="text-xl sm:text-2xl font-bold font-mono text-amber-400">50k/min</div>
-                    <div class="text-[11px] font-mono text-slate-400 uppercase mt-0.5">Request Capacity</div>
-                </div>
+                {{-- TODO: add measured figure --}}
+                {{-- TODO: add measured figure --}}
+                {{-- TODO: add measured figure --}}
                 <div class="text-center sm:text-left">
                     <div class="text-xl sm:text-2xl font-bold font-mono text-purple-400">1-Click</div>
                     <div class="text-[11px] font-mono text-slate-400 uppercase mt-0.5">Atomic Deploy</div>
@@ -513,11 +516,19 @@
 
                 <div class="p-4 rounded-xl bg-slate-950/50 border border-slate-800/80">
                     <h4 class="font-bold text-white text-base mb-1.5 flex items-center gap-2">
-                        <span class="text-cyan-400 font-mono text-sm">&gt;</span> Zero-Downtime cPanel / Apache Deployment
+                        <span class="text-cyan-400 font-mono text-sm">&gt;</span> Zero-touch cPanel deployments
                     </h4>
                     <p class="text-slate-400 text-xs sm:text-sm">
-                        Engineered automated zero-downtime deployment pipelines adapted for constrained cPanel environments using atomic symlinks, automated asset compilation, and safe database migration rollouts.
+                        Zero-touch cPanel deployments: GitHub Actions build, FTPS sync, key-protected deploy hook, health check.
                     </p>
+                    <div class="mt-2">
+                        <a href="https://medium.com/@gobik1990/zero-touch-deployments-on-shared-cpanel-hosting-with-github-actions-010d1e875444"
+                            target="_blank" rel="noopener noreferrer"
+                            class="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">
+                            <span>Read the full guide</span>
+                            <span>&rarr;</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="p-4 rounded-xl bg-slate-950/50 border border-slate-800/80">
