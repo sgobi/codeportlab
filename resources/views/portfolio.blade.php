@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $siteProfile->brand_name . $siteProfile->brand_accent }} | {{ $siteProfile->tagline }}</title>
     <link rel="canonical" href="https://codeportlab.com/">
-    <meta name="description" content="Production infrastructure, automated CI/CD pipelines, and cloud engineering projects by {{ $siteProfile->founder_name }}.">
+    <meta name="description" content="Cloud infrastructure and DevOps engineering: Terraform, CI/CD, AWS, and Laravel production hosting.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://codeportlab.com/">
     <meta property="og:title" content="{{ $siteProfile->brand_name . $siteProfile->brand_accent }} | {{ $siteProfile->tagline }}">
-    <meta property="og:description" content="Production infrastructure, automated CI/CD pipelines, and cloud engineering projects by {{ $siteProfile->founder_name }}.">
+    <meta property="og:description" content="Cloud infrastructure and DevOps engineering: Terraform, CI/CD, AWS, and Laravel production hosting.">
     @if($siteProfile->logo_url)
     <meta property="og:image" content="{{ $siteProfile->logo_url }}">
     @endif
@@ -217,19 +217,15 @@
                         <div class="flex flex-wrap gap-2 mb-6">
                             @foreach($study['metrics'] as $metric)
                                 @php
-                                    $isDeletedBadge = stripos($metric, 'zero-downtime') !== false
-                                        || stripos($metric, '100% Automated Policy Checks') !== false
-                                        || stripos($metric, 'Automated Policy Checks') !== false
-                                        || stripos($metric, 'Zero Hardcoded Secrets') !== false
-                                        || stripos($metric, 'Hardcoded Secrets') !== false;
-                                    
-                                    $isMeasuredFigureTodo = preg_match('/(99\.99%|50k\/min|<200ms|&lt;200ms|38%|95%\+?)/i', $metric);
+                                    $isDeletedBadge = stripos($metric, '38%') !== false
+                                        || stripos($metric, 'zero-downtime') !== false
+                                        || stripos($metric, '99.99%') !== false
+                                        || stripos($metric, '100%') !== false
+                                        || stripos($metric, 'Hardcoded Secrets') !== false
+                                        || stripos($metric, '95%') !== false
+                                        || stripos($metric, 'CIS Compliance') !== false;
                                 @endphp
-                                @if($isDeletedBadge)
-                                    {{-- removed unverified/unwanted badge --}}
-                                @elseif($isMeasuredFigureTodo)
-                                    {{-- TODO: add measured figure --}}
-                                @else
+                                @if(!$isDeletedBadge)
                                     <span
                                         class="px-3 py-1 rounded bg-slate-800 border border-slate-700 text-cyan-300 font-mono text-xs font-medium">
                                         {{ $metric }}
@@ -309,111 +305,59 @@
                 Containerization, and DevOps Engineering.</p>
         </div>
         <div class="grid md:grid-cols-3 gap-6">
-            @forelse($techUpdates as $update)
-                @php
-                    $isRoseVillaJournal = str_contains(strtolower($update->title), 'vps') 
-                        || str_contains(strtolower($update->title), 'rose villa') 
-                        || str_contains(strtolower($update->title), 'laravel');
-                    $hasExternalUrl = !empty($update->external_url) 
-                        && !str_starts_with($update->external_url, '#') 
-                        && !str_contains($update->external_url, '#journal');
-                @endphp
+            <!-- Article 1: Zero-Touch Deployments on Shared cPanel Hosting -->
+            <a href="https://medium.com/@gobik1990/zero-touch-deployments-on-shared-cpanel-hosting-with-github-actions-010d1e875444" target="_blank" rel="noopener noreferrer"
+                class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">DEVOPS &amp; CI/CD</span>
+                        <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
+                        Zero-Touch Deployments on Shared cPanel Hosting with GitHub Actions
+                    </h3>
+                    <p class="text-slate-400 text-sm mt-2 leading-relaxed">CI/CD for shared cPanel with no SSH: GitHub Actions, FTPS sync, a key-protected PHP deploy hook, and a health check.</p>
+                </div>
+                <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
+                    <span>Read Article &rarr;</span>
+                </div>
+            </a>
 
-                @if($isRoseVillaJournal || $loop->iteration === 3)
-                    <a href="https://medium.com/@gobik1990/zero-touch-deployments-on-shared-cpanel-hosting-with-github-actions-010d1e875444" target="_blank" rel="noopener noreferrer"
-                        class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
-                        <div>
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">DevOps &amp; CI/CD</span>
-                                <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
-                                Zero-Touch Deployments on Shared cPanel Hosting with GitHub Actions
-                            </h3>
-                            <p class="text-slate-400 text-sm mt-2 leading-relaxed">CI/CD for shared cPanel with no SSH: GitHub Actions, FTPS sync, a key-protected PHP deploy hook, and a health check.</p>
-                        </div>
-                        <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
-                            <span>Read Article</span>
-                            <span>&rarr;</span>
-                        </div>
-                    </a>
-                @elseif($hasExternalUrl)
-                    <a href="{{ $update->external_url }}" target="_blank" rel="noopener noreferrer"
-                        class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
-                        <div>
-                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{{ $update->category ?: 'PUBLISHED ARTICLE' }}</span>
-                            <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
-                                {{ $update->title }}
-                            </h3>
-                            <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ $update->summary }}</p>
-                        </div>
-                        <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
-                            <span>Read Article</span>
-                            <span>&rarr;</span>
-                        </div>
-                    </a>
-                @else
-                    @php
-                        $displayTitle = $update->title;
-                        if ($loop->iteration === 1 || (str_contains(strtolower($update->title), 'aws') && str_contains(strtolower($update->title), 'terraform'))) {
-                            $displayTitle = 'Reducing AWS Infrastructure Costs with Terraform';
-                        } elseif ($loop->iteration === 2 || str_contains(strtolower($update->title), 'ci/cd')) {
-                            $displayTitle = 'CI/CD Pipelines for Web Applications';
-                        }
-                    @endphp
-                    <div onclick="openPreviewModal(@js($displayTitle), @js($update->category ?: 'Technical Whitepaper'), @js($update->summary))"
-                        class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
-                        <div>
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{{ $update->category ?: 'TECHNICAL WHITEPAPER' }}</span>
-                                <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Planned</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
-                                {{ $displayTitle }}
-                            </h3>
-                            <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ $update->summary }}</p>
-                        </div>
+            <!-- Article 2: Ingress NGINX Retirement in March 2026 -->
+            <a href="https://medium.com/@gobik1990/ingress-nginx-retirement-in-march-2026-what-to-do-when-to-do-it-and-why-fb692cfc16d2" target="_blank" rel="noopener noreferrer"
+                class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">KUBERNETES</span>
+                        <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
                     </div>
-                @endif
-            @empty
-                <div onclick="openPreviewModal('Reducing AWS Infrastructure Costs with Terraform', 'CLOUD COST OPTIMIZATION', 'A strategic breakdown of rightsizing AWS resources and automating lifecycle policies via Terraform IaC.')"
-                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">CLOUD COST OPTIMIZATION</span>
-                            <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Planned</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Reducing AWS Infrastructure Costs with Terraform</h3>
-                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">A strategic breakdown of rightsizing AWS resources and automating lifecycle policies via Terraform IaC.</p>
-                    </div>
+                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
+                        Ingress NGINX Retirement in March 2026: What to Do, When to Do It, and Why
+                    </h3>
+                    <p class="text-slate-400 text-sm mt-2 leading-relaxed">A phased migration plan from Ingress NGINX to Gateway API, with a comparison of NGINX, F5 BIG-IP and API gateways.</p>
                 </div>
-                <div onclick="openPreviewModal('CI/CD Pipelines for Web Applications', 'DEVOPS & AUTOMATION', 'Architecting automated blue-green and canary delivery pipelines using GitHub Actions and container orchestration.')"
-                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group cursor-pointer">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">DEVOPS & AUTOMATION</span>
-                            <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Planned</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">CI/CD Pipelines for Web Applications</h3>
-                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">Architecting automated blue-green and canary delivery pipelines using GitHub Actions and container orchestration.</p>
-                    </div>
+                <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
+                    <span>Read Article &rarr;</span>
                 </div>
-                <a href="https://medium.com/@gobik1990/zero-touch-deployments-on-shared-cpanel-hosting-with-github-actions-010d1e875444" target="_blank" rel="noopener noreferrer"
-                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">DevOps &amp; CI/CD</span>
-                            <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">Zero-Touch Deployments on Shared cPanel Hosting with GitHub Actions</h3>
-                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">CI/CD for shared cPanel with no SSH: GitHub Actions, FTPS sync, a key-protected PHP deploy hook, and a health check.</p>
+            </a>
+
+            <!-- Article 3: ECS vs. EKS -->
+            <a href="https://medium.com/@gobik1990/ecs-vs-eks-which-aws-container-orchestrator-is-right-for-your-business-25b4445eb9a1" target="_blank" rel="noopener noreferrer"
+                class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">AWS &amp; CONTAINERS</span>
+                        <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
                     </div>
-                    <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
-                        <span>Read Article</span>
-                        <span>&rarr;</span>
-                    </div>
-                </a>
-            @endforelse
+                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
+                        ECS vs. EKS: Which AWS Container Orchestrator Is Right for Your Business?
+                    </h3>
+                    <p class="text-slate-400 text-sm mt-2 leading-relaxed">A practical comparison of AWS ECS and EKS to help you choose a container orchestrator.</p>
+                </div>
+                <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
+                    <span>Read Article &rarr;</span>
+                </div>
+            </a>
         </div>
     </section>
 
@@ -625,7 +569,7 @@
             </div>
 
             <p class="text-xs text-slate-500 mb-6 leading-relaxed">
-                A detailed writeup is planned. Contact me for an architecture briefing.
+                A detailed writeup is planned. Request an architecture briefing below.
             </p>
 
             <!-- Actions -->
