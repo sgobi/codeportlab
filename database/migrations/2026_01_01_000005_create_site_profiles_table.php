@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -28,8 +27,8 @@ return new class extends Migration
             $table->string('email')->default('gobi@codeportlab.com');
 
             // Social Proof
-            $table->string('github_url')->nullable()->default('https://github.com/gobik1990');
-            $table->string('linkedin_url')->nullable()->default('https://www.linkedin.com/in/gobikrishna-subramaniyam');
+            $table->string('github_url')->nullable()->default('https://github.com/sgobi');
+            $table->string('linkedin_url')->nullable()->default('https://www.linkedin.com/in/gobikrishnasubramaniyam');
             $table->string('medium_url')->nullable()->default('https://medium.com/@gobik1990');
 
             // Footer Notice

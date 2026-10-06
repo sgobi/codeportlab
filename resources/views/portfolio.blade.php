@@ -726,12 +726,14 @@
             <!-- Social Proof Links & Legal -->
             <div class="flex flex-col md:items-end gap-3">
                 <div class="flex flex-wrap items-center gap-6 text-sm font-medium text-slate-400">
-                    <a href="https://github.com/sgobi" target="_blank" rel="noopener noreferrer"
+                    <a href="{{ $siteProfile->github_url }}" target="_blank" rel="noopener noreferrer"
                         class="hover:text-cyan-400 transition-colors">GitHub</a>
-                    <a href="https://www.linkedin.com/in/gobikrishnasubramaniyam" target="_blank"
-                        rel="noopener noreferrer" class="hover:text-cyan-400 transition-colors">LinkedIn</a>
-                    <a href="https://medium.com/@gobik1990" target="_blank" rel="noopener noreferrer"
+                    <a href="{{ $siteProfile->linkedin_url }}" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-cyan-400 transition-colors">LinkedIn</a>
+                    <a href="{{ $siteProfile->medium_url  }}" target="_blank" rel="noopener noreferrer"
                         class="hover:text-cyan-400 transition-colors">Medium</a>
+                    <!-- <a href="{{ $siteProfile->hashnode_url }}" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-cyan-400 transition-colors">Hashnode</a> -->
                     @foreach($siteProfile->all_social_links as $link)
                         @if(!in_array(strtolower($link['label']), ['github', 'linkedin', 'medium']))
                             <a href="{{ $link['url'] }}" target="_blank" rel="noopener noreferrer"
