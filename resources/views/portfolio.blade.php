@@ -6,13 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $siteProfile->brand_name . $siteProfile->brand_accent }} | {{ $siteProfile->tagline }}</title>
     <link rel="canonical" href="https://codeportlab.com/">
-    <meta name="description" content="Cloud infrastructure and DevOps engineering: Terraform, CI/CD, AWS, and Laravel production hosting.">
+    <meta name="description"
+        content="Cloud infrastructure and DevOps engineering: Terraform, CI/CD, AWS, and Laravel production hosting.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://codeportlab.com/">
-    <meta property="og:title" content="{{ $siteProfile->brand_name . $siteProfile->brand_accent }} | {{ $siteProfile->tagline }}">
-    <meta property="og:description" content="Cloud infrastructure and DevOps engineering: Terraform, CI/CD, AWS, and Laravel production hosting.">
+    <meta property="og:title"
+        content="{{ $siteProfile->brand_name . $siteProfile->brand_accent }} | {{ $siteProfile->tagline }}">
+    <meta property="og:description"
+        content="Cloud infrastructure and DevOps engineering: Terraform, CI/CD, AWS, and Laravel production hosting.">
     @if($siteProfile->logo_url)
-    <meta property="og:image" content="{{ $siteProfile->logo_url }}">
+        <meta property="og:image" content="{{ $siteProfile->logo_url }}">
     @endif
     <link rel="icon" type="image/png" href="{{ $siteProfile->logo_url }}">
     <link rel="stylesheet" href="/css/output.css">
@@ -179,7 +182,8 @@
                 managed cloud deployments tailored for businesses.</p>
         </div>
         <div class="grid md:grid-cols-3 gap-8">
-            <div id="service-cloud-architecture" class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl hover:border-cyan-500/50 transition-all">
+            <div id="service-cloud-architecture"
+                class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl hover:border-cyan-500/50 transition-all">
                 <div
                     class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded-lg flex items-center justify-center font-mono font-bold mb-6">
                     &gt;_</div>
@@ -190,7 +194,8 @@
                     class="text-cyan-400 text-sm font-semibold hover:text-cyan-300 flex items-center gap-1">Request
                     Audit &rarr;</a>
             </div>
-            <div id="service-devsecops" class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl hover:border-cyan-500/50 transition-all">
+            <div id="service-devsecops"
+                class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl hover:border-cyan-500/50 transition-all">
                 <div
                     class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded-lg flex items-center justify-center font-mono font-bold mb-6">
                     #</div>
@@ -201,12 +206,14 @@
                     class="text-cyan-400 text-sm font-semibold hover:text-cyan-300 flex items-center gap-1">Explore
                     Workflows &rarr;</a>
             </div>
-            <div id="service-backend-edge" class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl hover:border-cyan-500/50 transition-all">
+            <div id="service-backend-edge"
+                class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl hover:border-cyan-500/50 transition-all">
                 <div
                     class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded-lg flex items-center justify-center font-mono font-bold mb-6">
                     ::</div>
                 <h3 class="text-xl font-bold text-white mb-3">Productized Backend & Edge Infrastructure</h3>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">Managed backends (Laravel 11 / PHP 8.2+ / MySQL 8.0), ESC/POS print engines, and
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">Managed backends (Laravel 11 / PHP 8.2+ / MySQL
+                    8.0), ESC/POS print engines, and
                     cloud backups for retail & hospitality.</p>
                 <button onclick="toggleAuditModal()"
                     class="text-cyan-400 text-sm font-semibold hover:text-cyan-300 flex items-center gap-1">Request
@@ -315,7 +322,8 @@
                                 Quick Preview
                             </button>
                         @else
-                            <button type="button" onclick="openPreviewModal(@js($cleanTitle), @js($cleanCategory), @js($cleanDescription), @js($targetCaseStudyUrl))"
+                            <button type="button"
+                                onclick="openPreviewModal(@js($cleanTitle), @js($cleanCategory), @js($cleanDescription), @js($targetCaseStudyUrl))"
                                 class="text-xs text-slate-400 hover:text-cyan-300 font-mono transition-colors">
                                 Quick Preview
                             </button>
@@ -335,14 +343,15 @@
                 </div>
                 <div>
                     <div class="flex flex-wrap items-center gap-2 mb-1">
-                        <span
-                            class="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold">My Core Engineering Commitment</span>
+                        <span class="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold">My Core
+                            Engineering Commitment</span>
                         <span class="text-xs font-mono text-slate-600">/</span>
-                        <span
-                            class="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold">Built by Design</span>
+                        <span class="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold">Built by
+                            Design</span>
                     </div>
                     <p class="text-slate-200 text-sm sm:text-base font-medium leading-relaxed">
-                        Engineered for reliable deployments, strict IaC auditability, and cloud cost efficiency across every production deployment.
+                        Engineered for reliable deployments, strict IaC auditability, and cloud cost efficiency across
+                        every production deployment.
                     </p>
                 </div>
             </div>
@@ -361,55 +370,68 @@
         </div>
         <div class="grid md:grid-cols-3 gap-6">
             <!-- Article 1: Zero-Touch Deployments on Shared cPanel Hosting -->
-            <a href="https://medium.com/@gobik1990/zero-touch-deployments-on-shared-cpanel-hosting-with-github-actions-010d1e875444" target="_blank" rel="noopener noreferrer"
+            <a href="https://medium.com/@gobik1990/zero-touch-deployments-on-shared-cpanel-hosting-with-github-actions-010d1e875444"
+                target="_blank" rel="noopener noreferrer"
                 class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
                 <div>
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">DEVOPS &amp; CI/CD</span>
-                        <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
+                        <span
+                            class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
                     </div>
                     <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
                         Zero-Touch Deployments on Shared cPanel Hosting with GitHub Actions
                     </h3>
-                    <p class="text-slate-400 text-sm mt-2 leading-relaxed">CI/CD for shared cPanel with no SSH: GitHub Actions, FTPS sync, a key-protected PHP deploy hook, and a health check.</p>
+                    <p class="text-slate-400 text-sm mt-2 leading-relaxed">CI/CD for shared cPanel with no SSH: GitHub
+                        Actions, FTPS sync, a key-protected PHP deploy hook, and a health check.</p>
                 </div>
-                <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
+                <div
+                    class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
                     <span>Read Article &rarr;</span>
                 </div>
             </a>
 
             <!-- Article 2: Ingress NGINX Retirement in March 2026 -->
-            <a href="https://medium.com/@gobik1990/ingress-nginx-retirement-in-march-2026-what-to-do-when-to-do-it-and-why-fb692cfc16d2" target="_blank" rel="noopener noreferrer"
+            <a href="https://medium.com/@gobik1990/ingress-nginx-retirement-in-march-2026-what-to-do-when-to-do-it-and-why-fb692cfc16d2"
+                target="_blank" rel="noopener noreferrer"
                 class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
                 <div>
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">KUBERNETES</span>
-                        <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
+                        <span
+                            class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
                     </div>
                     <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
                         Ingress NGINX Retirement in March 2026: What to Do, When to Do It, and Why
                     </h3>
-                    <p class="text-slate-400 text-sm mt-2 leading-relaxed">A phased migration plan from Ingress NGINX to Gateway API, with a comparison of NGINX, F5 BIG-IP and API gateways.</p>
+                    <p class="text-slate-400 text-sm mt-2 leading-relaxed">A phased migration plan from Ingress NGINX to
+                        Gateway API, with a comparison of NGINX, F5 BIG-IP and API gateways.</p>
                 </div>
-                <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
+                <div
+                    class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
                     <span>Read Article &rarr;</span>
                 </div>
             </a>
 
             <!-- Article 3: ECS vs. EKS -->
-            <a href="https://medium.com/@gobik1990/ecs-vs-eks-which-aws-container-orchestrator-is-right-for-your-business-25b4445eb9a1" target="_blank" rel="noopener noreferrer"
+            <a href="https://medium.com/@gobik1990/ecs-vs-eks-which-aws-container-orchestrator-is-right-for-your-business-25b4445eb9a1"
+                target="_blank" rel="noopener noreferrer"
                 class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
                 <div>
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">AWS &amp; CONTAINERS</span>
-                        <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
+                        <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">AWS &amp;
+                            CONTAINERS</span>
+                        <span
+                            class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
                     </div>
                     <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
                         ECS vs. EKS: Which AWS Container Orchestrator Is Right for Your Business?
                     </h3>
-                    <p class="text-slate-400 text-sm mt-2 leading-relaxed">A practical comparison of AWS ECS and EKS to help you choose a container orchestrator.</p>
+                    <p class="text-slate-400 text-sm mt-2 leading-relaxed">A practical comparison of AWS ECS and EKS to
+                        help you choose a container orchestrator.</p>
                 </div>
-                <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
+                <div
+                    class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
                     <span>Read Article &rarr;</span>
                 </div>
             </a>
@@ -451,8 +473,11 @@
                 within 24 hours.</p>
 
             @if(session('audit_success'))
-                <div class="mb-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs flex items-center gap-2">
-                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <div
+                    class="mb-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs flex items-center gap-2">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
                     <span>{{ session('audit_success') }}</span>
                 </div>
             @endif
@@ -471,19 +496,23 @@
                 @csrf
                 <div>
                     <label for="audit-email" class="block text-xs font-mono text-slate-400 mb-1">YOUR EMAIL</label>
-                    <input type="email" id="audit-email" name="email" value="{{ old('email') }}" required placeholder="cto@company.com"
+                    <input type="email" id="audit-email" name="email" value="{{ old('email') }}" required
+                        placeholder="cto@company.com"
                         class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
                 </div>
                 <div>
-                    <label for="audit-stack" class="block text-xs font-mono text-slate-400 mb-1">CLOUD / STACK (AWS, AZURE, DOCKER,
+                    <label for="audit-stack" class="block text-xs font-mono text-slate-400 mb-1">CLOUD / STACK (AWS,
+                        AZURE, DOCKER,
                         LARAVEL 11 / PHP 8.2+ / MYSQL 8.0)</label>
                     <input type="text" id="audit-stack" name="stack" value="{{ old('stack') }}" required
                         placeholder="e.g. AWS EKS, Terraform, Laravel 11 / PHP 8.2+ / MySQL 8.0, POS Systems"
                         class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
                 </div>
                 <div>
-                    <label for="audit-scope" class="block text-xs font-mono text-slate-400 mb-1">PROJECT SCOPE &amp; GOALS</label>
-                    <textarea id="audit-scope" name="scope" rows="3" placeholder="Describe current pain points, cost targets, or migration needs..."
+                    <label for="audit-scope" class="block text-xs font-mono text-slate-400 mb-1">PROJECT SCOPE &amp;
+                        GOALS</label>
+                    <textarea id="audit-scope" name="scope" rows="3"
+                        placeholder="Describe current pain points, cost targets, or migration needs..."
                         class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">{{ old('scope') }}</textarea>
                 </div>
                 <button type="submit"
@@ -498,19 +527,23 @@
     <div id="rose-villa-modal"
         class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
         role="dialog" aria-modal="true" aria-labelledby="rose-villa-modal-title">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[90vh] overflow-y-auto">
+        <div
+            class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[90vh] overflow-y-auto">
             <button type="button" onclick="closeRoseVillaModal()" aria-label="Close modal"
                 class="absolute top-5 right-5 text-slate-400 hover:text-white text-2xl transition-colors">&times;</button>
 
             <!-- Header Badges -->
             <div class="flex flex-wrap items-center gap-2 mb-3">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
                     Client Production System
                 </span>
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+                <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
                     Laravel 11 &amp; Filament 3
                 </span>
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/30">
+                <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/30">
                     cPanel Deployment
                 </span>
             </div>
@@ -519,7 +552,8 @@
                 Productized Backend &amp; Edge POS Infrastructure
             </h3>
             <p class="text-slate-400 text-sm mb-6 leading-relaxed">
-                Full-stack production benchmark deployed for Rose Villa: A resilient, high-throughput point-of-sale and kitchen telemetry backend running on resource-constrained hosting.
+                Full-stack production benchmark deployed for Rose Villa: A resilient, high-throughput point-of-sale and
+                kitchen telemetry backend running on resource-constrained hosting.
             </p>
 
             <!-- Deep Dive Breakdown Sections -->
@@ -529,7 +563,9 @@
                         <span class="text-cyan-400 font-mono text-sm">&gt;</span> Laravel 11 &amp; PHP 8.2+ Architecture
                     </h4>
                     <p class="text-slate-400 text-xs sm:text-sm">
-                        Built on Laravel 11 with strict typing and lightweight background job queues. Tuned Eloquent queries with eager-loading indexes to eliminate N+1 bottlenecks under peak dinner hour load surges.
+                        Built on Laravel 11 with strict typing and lightweight background job queues. Tuned Eloquent
+                        queries with eager-loading indexes to eliminate N+1 bottlenecks under peak dinner hour load
+                        surges.
                     </p>
                 </div>
 
@@ -538,7 +574,8 @@
                         <span class="text-cyan-400 font-mono text-sm">&gt;</span> Filament v3 Real-Time Operations Panel
                     </h4>
                     <p class="text-slate-400 text-xs sm:text-sm">
-                        Custom administration workspace providing live sales telemetry, multi-register management, role-based table access, and inventory depletion tracking with zero frontend overhead.
+                        Custom administration workspace providing live sales telemetry, multi-register management,
+                        role-based table access, and inventory depletion tracking with zero frontend overhead.
                     </p>
                 </div>
 
@@ -547,7 +584,8 @@
                         <span class="text-cyan-400 font-mono text-sm">&gt;</span> Zero-touch cPanel deployments
                     </h4>
                     <p class="text-slate-400 text-xs sm:text-sm">
-                        Zero-touch cPanel deployments: GitHub Actions build, FTPS sync, key-protected deploy hook, health check.
+                        Zero-touch cPanel deployments: GitHub Actions build, FTPS sync, key-protected deploy hook,
+                        health check.
                     </p>
                     <div class="mt-2">
                         <a href="https://medium.com/@gobik1990/zero-touch-deployments-on-shared-cpanel-hosting-with-github-actions-010d1e875444"
@@ -561,10 +599,12 @@
 
                 <div class="p-4 rounded-xl bg-slate-950/50 border border-slate-800/80">
                     <h4 class="font-bold text-white text-base mb-1.5 flex items-center gap-2">
-                        <span class="text-cyan-400 font-mono text-sm">&gt;</span> Edge ESC/POS Hardware &amp; Cloud Disaster Recovery
+                        <span class="text-cyan-400 font-mono text-sm">&gt;</span> Edge ESC/POS Hardware &amp; Cloud
+                        Disaster Recovery
                     </h4>
                     <p class="text-slate-400 text-xs sm:text-sm">
-                        Direct raw ESC/POS network socket integration for kitchen thermal printers, paired with automated encrypted offsite MySQL snapshots taken hourly and synced to AWS S3.
+                        Direct raw ESC/POS network socket integration for kitchen thermal printers, paired with
+                        automated encrypted offsite MySQL snapshots taken hourly and synced to AWS S3.
                     </p>
                 </div>
             </div>
@@ -593,15 +633,19 @@
     <div id="preview-modal"
         class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
         role="dialog" aria-modal="true" aria-labelledby="preview-modal-title">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-xl w-full p-6 sm:p-8 relative shadow-2xl my-8">
+        <div
+            class="bg-slate-900 border border-slate-800 rounded-2xl max-w-xl w-full p-6 sm:p-8 relative shadow-2xl my-8">
             <button type="button" onclick="closePreviewModal()" aria-label="Close modal"
                 class="absolute top-5 right-5 text-slate-400 hover:text-white text-2xl transition-colors">&times;</button>
 
             <!-- Badge -->
             <div class="flex items-center gap-2 mb-3">
                 <span id="preview-modal-category"
-                    class="text-xs font-mono text-cyan-400 uppercase tracking-wider font-semibold">TECHNICAL WHITEPAPER</span>
-                <span class="text-xs font-mono text-purple-400 bg-purple-500/10 border border-purple-500/30 px-2 py-0.5 rounded font-medium">Lab Benchmark</span>
+                    class="text-xs font-mono text-cyan-400 uppercase tracking-wider font-semibold">TECHNICAL
+                    WHITEPAPER</span>
+                <span
+                    class="text-xs font-mono text-purple-400 bg-purple-500/10 border border-purple-500/30 px-2 py-0.5 rounded font-medium">Lab
+                    Benchmark</span>
             </div>
 
             <h3 id="preview-modal-title" class="text-xl sm:text-2xl font-bold text-white mb-3 leading-snug">
@@ -612,17 +656,27 @@
                 Detailed architecture breakdown, performance benchmarks, and implementation code.
             </p>
 
-            <div class="p-4 rounded-xl bg-slate-950/60 border border-slate-800 mb-6 space-y-2 text-xs font-mono text-slate-400">
+            <div
+                class="p-4 rounded-xl bg-slate-950/60 border border-slate-800 mb-6 space-y-2 text-xs font-mono text-slate-400">
                 <div class="flex items-center gap-2 text-cyan-300 font-semibold">
-                    <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
                     <span>Full Benchmark Specs &amp; IaC Blueprints</span>
                 </div>
                 <div class="flex items-center gap-2 text-cyan-300 font-semibold">
-                    <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
                     <span>Production Telemetry &amp; Cost Data</span>
                 </div>
                 <div class="flex items-center gap-2 text-cyan-300 font-semibold">
-                    <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
                     <span>Sanitized Code Artifacts &amp; Reproduction Guide</span>
                 </div>
             </div>
@@ -672,11 +726,11 @@
             <!-- Social Proof Links & Legal -->
             <div class="flex flex-col md:items-end gap-3">
                 <div class="flex flex-wrap items-center gap-6 text-sm font-medium text-slate-400">
-                    <a href="https://github.com/gobik1990" target="_blank" rel="noopener noreferrer"
+                    <a href="{{ $settings->github_url }}" target="_blank" rel="noopener noreferrer"
                         class="hover:text-cyan-400 transition-colors">GitHub</a>
-                    <a href="https://www.linkedin.com/in/gobikrishna-subramaniyam" target="_blank" rel="noopener noreferrer"
+                    <a href="{{ $settings->linkedin_url }}" target="_blank" rel="noopener noreferrer"
                         class="hover:text-cyan-400 transition-colors">LinkedIn</a>
-                    <a href="https://medium.com/@gobik1990" target="_blank" rel="noopener noreferrer"
+                    <a href="{{ $settings->medium_url }}" target="_blank" rel="noopener noreferrer"
                         class="hover:text-cyan-400 transition-colors">Medium</a>
                     @foreach($siteProfile->all_social_links as $link)
                         @if(!in_array(strtolower($link['label']), ['github', 'linkedin', 'medium']))
