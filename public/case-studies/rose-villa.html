@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rose Villa POS &amp; Edge Infrastructure | CodePortLab Case Study</title>
+    <link rel="canonical" href="https://codeportlab.com/case-studies/rose-villa.html">
+    <meta name="description" content="Production case study for Rose Villa: high-throughput point-of-sale and kitchen telemetry backend running on resource-constrained shared cPanel hosting with Laravel 11 and Filament v3.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://codeportlab.com/case-studies/rose-villa.html">
+    <meta property="og:title" content="Rose Villa POS &amp; Edge Infrastructure | CodePortLab Case Study">
+    <meta property="og:description" content="Resilient point-of-sale and kitchen telemetry backend on resource-constrained hosting: Laravel 11, PHP 8.2+, MySQL 8.0, and zero-touch cPanel deployments.">
+    <meta property="og:site_name" content="CodePortLab">
+    <meta property="og:image" content="https://codeportlab.com/images/logo_icon_transparent.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rose Villa POS &amp; Edge Infrastructure | CodePortLab">
+    <meta name="twitter:description" content="Full-stack production benchmark deployed for Rose Villa: Laravel 11, Filament v3, ESC/POS hardware integration, and automated cloud backups.">
+    <meta name="twitter:image" content="https://codeportlab.com/images/logo_icon_transparent.png">
+    <link rel="icon" type="image/png" href="/images/logo_icon_transparent.png">
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Productized Backend & Edge POS Infrastructure (Rose Villa)",
+        "description": "Full-stack production deployment for Rose Villa: resilient point-of-sale and kitchen telemetry backend running on resource-constrained shared hosting.",
+        "url": "https://codeportlab.com/case-studies/rose-villa.html",
+        "author": {
+            "@type": "Person",
+            "name": "Gobikrishna Subramaniyam",
+            "jobTitle": "Founder & Senior Cloud Architect",
+            "url": "https://codeportlab.com/"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "CodePortLab",
+            "url": "https://codeportlab.com/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://codeportlab.com/images/logo_icon_transparent.png"
+            }
+        },
+        "datePublished": "2026-01-01",
+        "dateModified": "2026-10-06"
+    }
+    </script>
+</head>
+
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950">
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-800" aria-label="Main Navigation">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3" aria-label="CodePortLab Home">
+                <img src="/images/logo_icon_transparent.png" alt="CodePortLab Logo" class="h-10 w-auto object-contain">
+                <div class="flex flex-col leading-none">
+                    <span class="font-mono text-lg font-bold text-white">CodePort<span class="text-cyan-400">Lab</span></span>
+                    <span class="text-[10px] text-slate-400 tracking-widest font-mono mt-0.5">CLOUD &amp; DEVOPS</span>
+                </div>
+            </a>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="/#services" class="hover:text-cyan-400 transition-colors">Services</a>
+                <a href="/#case-studies" class="text-cyan-400 font-semibold transition-colors">Case Studies</a>
+                <a href="/#journal" class="hover:text-cyan-400 transition-colors">Tech Journal</a>
+                <a href="/#terminal" class="hover:text-cyan-400 transition-colors">Terminal</a>
+                <a href="/#contact" class="hover:text-cyan-400 transition-colors">Contact</a>
+            </div>
+            <button type="button" onclick="toggleAuditModal()"
+                class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-slate-950">
+                Book Audit
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <!-- Breadcrumb Navigation -->
+        <nav class="mb-8" aria-label="Breadcrumb">
+            <ol class="flex items-center gap-2 text-xs font-mono text-slate-400">
+                <li><a href="/" class="hover:text-cyan-400 transition-colors">Home</a></li>
+                <li class="text-slate-600">/</li>
+                <li><a href="/#case-studies" class="hover:text-cyan-400 transition-colors">Case Studies</a></li>
+                <li class="text-slate-600">/</li>
+                <li class="text-cyan-300" aria-current="page">Rose Villa</li>
+            </ol>
+        </nav>
+
+        <!-- Case Study Header -->
+        <header class="mb-12 border-b border-slate-900 pb-10">
+            <!-- Label near top: Client Production System -->
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+                <span class="inline-flex items-center px-3 py-1 rounded text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                    Client Production System
+                </span>
+                <span class="inline-flex items-center px-3 py-1 rounded text-xs font-mono font-medium bg-slate-800 text-slate-300 border border-slate-700">
+                    Productized B2B Deployments
+                </span>
+                <span class="inline-flex items-center px-3 py-1 rounded text-xs font-mono font-medium bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+                    Hospitality POS &amp; Backend
+                </span>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
+                Productized Backend &amp; Edge POS Infrastructure (Rose Villa)
+            </h1>
+
+            <p class="text-lg text-slate-400 leading-relaxed max-w-3xl">
+                Full-stack production benchmark deployed for Rose Villa: A resilient, high-throughput point-of-sale and kitchen telemetry backend running on resource-constrained hosting.
+            </p>
+
+            <!-- Metadata & Technology Stack Badges -->
+            <div class="mt-6 flex flex-wrap items-center gap-2 pt-6 border-t border-slate-900">
+                <span class="text-xs font-mono text-slate-400 mr-2">TECH STACK:</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">Laravel 11</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">PHP 8.2+</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">MySQL 8.0</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">Filament v3</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">ESC/POS</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">cPanel / Apache</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">GitHub Actions</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">AWS S3</span>
+            </div>
+        </header>
+
+        <!-- 4 Core Sections: Challenge, Environment, Solution, Results -->
+        <article class="space-y-12">
+
+            <!-- Section 1: Challenge -->
+            <section class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 sm:p-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-mono font-bold text-sm">01</span>
+                    <h2 class="text-2xl font-bold text-white tracking-tight">Challenge</h2>
+                </div>
+                <div class="text-slate-300 leading-relaxed space-y-4 text-sm sm:text-base">
+                    <p>
+                        Rose Villa required a reliable, high-throughput point-of-sale (POS) and kitchen order telemetry backend capable of handling intensive order processing during peak dining rushes. The primary operational constraint was running the application reliably within resource-constrained shared cPanel hosting rather than expensive dedicated Kubernetes clusters.
+                    </p>
+                    <p>
+                        Key engineering challenges included:
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-slate-400 text-sm ml-2">
+                        <li>Eliminating query latency spikes and database bottlenecks under simultaneous order entries from multiple terminal registers.</li>
+                        <li>Maintaining uninterrupted kitchen ticket routing to physical thermal receipt printers without proprietary cloud middleman software.</li>
+                        <li>Establishing an automated continuous deployment workflow for shared cPanel hosting without interactive SSH shell privileges.</li>
+                        <li>Ensuring complete offsite disaster recovery backups for transactions and inventory records.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section 2: Environment -->
+            <section class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 sm:p-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-mono font-bold text-sm">02</span>
+                    <h2 class="text-2xl font-bold text-white tracking-tight">Environment</h2>
+                </div>
+                <div class="text-slate-300 leading-relaxed space-y-4 text-sm sm:text-base">
+                    <p>
+                        The infrastructure stack and runtime environment were purposefully designed for maximum stability and minimal resource footprint on shared Linux infrastructure:
+                    </p>
+                    <div class="grid sm:grid-cols-2 gap-4 mt-4">
+                        <div class="bg-slate-950/60 border border-slate-800/80 p-4 rounded-xl">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider block mb-1">Hosting &amp; Web Server</span>
+                            <p class="text-white text-sm font-semibold">CloudLinux 7 / Apache 2.4 (cPanel)</p>
+                            <p class="text-slate-400 text-xs mt-1">MultiPHP 8.2+ with mod_rewrite root isolation and strict strict storage quota management.</p>
+                        </div>
+                        <div class="bg-slate-950/60 border border-slate-800/80 p-4 rounded-xl">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider block mb-1">Backend Framework</span>
+                            <p class="text-white text-sm font-semibold">Laravel 11 / PHP 8.2+ / MySQL 8.0</p>
+                            <p class="text-slate-400 text-xs mt-1">Strict type declarations, Eloquent query optimization, and lightweight background job queues.</p>
+                        </div>
+                        <div class="bg-slate-950/60 border border-slate-800/80 p-4 rounded-xl">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider block mb-1">Operations Panel</span>
+                            <p class="text-white text-sm font-semibold">Filament PHP v3</p>
+                            <p class="text-slate-400 text-xs mt-1">Live sales telemetry, multi-register management, role-based table access, and inventory tracking.</p>
+                        </div>
+                        <div class="bg-slate-950/60 border border-slate-800/80 p-4 rounded-xl">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider block mb-1">Hardware &amp; CI/CD</span>
+                            <p class="text-white text-sm font-semibold">ESC/POS Network Sockets &amp; GitHub Actions</p>
+                            <p class="text-slate-400 text-xs mt-1">Direct thermal printing integration and automated FTPS sync with key-protected deploy hooks.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Solution -->
+            <section class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 sm:p-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-mono font-bold text-sm">03</span>
+                    <h2 class="text-2xl font-bold text-white tracking-tight">Solution</h2>
+                </div>
+                <div class="text-slate-300 leading-relaxed space-y-6 text-sm sm:text-base">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <span class="text-cyan-400 font-mono text-sm">&gt;</span> Laravel 11 &amp; PHP 8.2+ Architecture
+                        </h3>
+                        <p class="text-slate-400 text-sm">
+                            Built on Laravel 11 with strict typing and lightweight background job queues. Tuned Eloquent queries with eager-loading indexes to eliminate N+1 bottlenecks under peak dinner hour load surges.
+                        </p>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-800/80">
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <span class="text-cyan-400 font-mono text-sm">&gt;</span> Filament v3 Real-Time Operations Panel
+                        </h3>
+                        <p class="text-slate-400 text-sm">
+                            Custom administration workspace providing live sales telemetry, multi-register management, role-based table access, and inventory depletion tracking with zero frontend overhead.
+                        </p>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-800/80">
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <span class="text-cyan-400 font-mono text-sm">&gt;</span> Zero-Touch cPanel Deployments
+                        </h3>
+                        <p class="text-slate-400 text-sm">
+                            Zero-touch cPanel deployments: GitHub Actions build, FTPS sync, key-protected deploy hook, and automated health checks.
+                        </p>
+                        <p class="text-xs font-mono text-slate-500 mt-2">
+                            Deployment architecture detailed in technical guide: <a href="https://medium.com/@gobik1990/zero-touch-deployments-on-shared-cpanel-hosting-with-github-actions-010d1e875444" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline">"Zero-Touch Deployments on Shared cPanel Hosting with GitHub Actions"</a>.
+                        </p>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-800/80">
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <span class="text-cyan-400 font-mono text-sm">&gt;</span> Edge ESC/POS Hardware &amp; Cloud Disaster Recovery
+                        </h3>
+                        <p class="text-slate-400 text-sm">
+                            Direct raw ESC/POS network socket integration for kitchen thermal printers, paired with automated encrypted offsite MySQL snapshots taken hourly and synced to AWS S3.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Results -->
+            <section class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 sm:p-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-mono font-bold text-sm">04</span>
+                    <h2 class="text-2xl font-bold text-white tracking-tight">Results</h2>
+                </div>
+                <div class="text-slate-300 leading-relaxed space-y-4 text-sm sm:text-base">
+                    <p>
+                        The deployed infrastructure delivers stable, uninterrupted daily operations for the client with minimal hosting expenditure:
+                    </p>
+                    <ul class="space-y-3 text-slate-400 text-sm">
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-emerald-400 font-mono font-bold text-base leading-none mt-1">&#10003;</span>
+                            <span><strong class="text-white">High-Throughput Operational Stability:</strong> Resilient point-of-sale backend running reliably within constrained shared hosting memory and CPU limits.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-emerald-400 font-mono font-bold text-base leading-none mt-1">&#10003;</span>
+                            <span><strong class="text-white">Instant Kitchen Hardware Dispatch:</strong> Direct ESC/POS socket connection dispatches kitchen chits instantly without relying on desktop printing drivers or external SaaS relays.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-emerald-400 font-mono font-bold text-base leading-none mt-1">&#10003;</span>
+                            <span><strong class="text-white">Zero-Downtime GitOps Delivery:</strong> GitHub Actions pipeline deploys production updates seamlessly with automated caching and health verifications.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-emerald-400 font-mono font-bold text-base leading-none mt-1">&#10003;</span>
+                            <span><strong class="text-white">Automated Offsite Snapshots:</strong> Transaction records and catalog states securely encrypted and mirrored to AWS S3 storage on an hourly schedule.</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+        </article>
+
+        <!-- Contextual Links: Matching Service Card & Contact Section -->
+        <section class="mt-12 pt-8 border-t border-slate-900 grid sm:grid-cols-2 gap-6" aria-label="Related Links">
+            <!-- Link to Matching Service Card -->
+            <a href="/#service-backend-edge"
+                class="group bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 rounded-xl p-6 transition-all flex flex-col justify-between">
+                <div>
+                    <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider block mb-1">RELATED SERVICE</span>
+                    <h3 class="text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
+                        Productized Backend &amp; Edge Infrastructure &rarr;
+                    </h3>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+                        Explore managed backends (Laravel 11 / PHP 8.2+ / MySQL 8.0), ESC/POS print engines, and cloud backups for retail &amp; hospitality.
+                    </p>
+                </div>
+                <span class="text-xs font-mono text-cyan-400 font-semibold mt-4 block">View Service Card &rarr;</span>
+            </a>
+
+            <!-- Link to Contact Section -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider block mb-1">NEED SIMILAR ARCHITECTURE?</span>
+                    <h3 class="text-base font-bold text-white">
+                        Book an Infrastructure Assessment
+                    </h3>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+                        Have a retail, hospitality, or legacy cPanel application that needs robust performance, automated CI/CD, and edge printing?
+                    </p>
+                </div>
+                <div class="mt-4 flex items-center gap-3">
+                    <button type="button" onclick="toggleAuditModal()"
+                        class="px-4 py-2 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs rounded transition-all">
+                        Book Audit
+                    </button>
+                    <a href="/#contact" class="text-xs font-mono text-slate-300 hover:text-cyan-400 transition-colors">
+                        Contact Details &rarr;
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Back to Case Studies Navigation -->
+        <div class="mt-12 text-center">
+            <a href="/#case-studies"
+                class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-sm font-semibold text-slate-300 hover:text-white transition-all">
+                <span>&larr; Back to All Case Studies</span>
+            </a>
+        </div>
+    </main>
+
+    <!-- Book Infrastructure Audit Modal -->
+    <div id="audit-modal"
+        class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4"
+        role="dialog" aria-modal="true" aria-labelledby="audit-modal-title">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl">
+            <button type="button" onclick="toggleAuditModal()" aria-label="Close modal"
+                class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded p-1">&times;</button>
+
+            <h3 id="audit-modal-title" class="text-2xl font-bold text-white mb-2">Book Infrastructure Audit</h3>
+            <p class="text-slate-400 text-sm mb-6">Fill in your email and primary cloud stack. I will respond within 24 hours.</p>
+
+            <form action="/contact" method="POST" class="space-y-4">
+                <div>
+                    <label for="audit-email" class="block text-xs font-mono text-slate-400 mb-1">YOUR EMAIL</label>
+                    <input type="email" id="audit-email" name="email" required placeholder="cto@company.com"
+                        class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
+                </div>
+                <div>
+                    <label for="audit-stack" class="block text-xs font-mono text-slate-400 mb-1">CLOUD / STACK (AWS, AZURE, DOCKER, LARAVEL 11 / PHP 8.2+ / MYSQL 8.0)</label>
+                    <input type="text" id="audit-stack" name="stack" required
+                        value="Laravel 11 / PHP 8.2+ / MySQL 8.0, ESC/POS, POS Infrastructure"
+                        class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
+                </div>
+                <div>
+                    <label for="audit-scope" class="block text-xs font-mono text-slate-400 mb-1">PROJECT SCOPE &amp; GOALS</label>
+                    <textarea id="audit-scope" name="scope" rows="3" placeholder="Describe current architecture, pain points, or migration goals..."
+                        class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400"></textarea>
+                </div>
+                <button type="submit"
+                    class="w-full py-3 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold rounded transition-all">
+                    Submit Audit Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Founder Profile & Trust Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-16 px-4 sm:px-6 lg:px-8 mt-20" aria-label="Site Footer">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <!-- Founder Profile Badge -->
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-full bg-slate-800 border-2 border-cyan-500/40 flex items-center justify-center font-mono font-bold text-cyan-400 text-lg">
+                    GS
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-lg">Gobikrishna Subramaniyam</h4>
+                    <p class="text-slate-400 text-sm">Founder &amp; Senior Cloud Architect @ CodePortLab</p>
+                    <p class="text-xs font-mono text-slate-500 mt-1">&#128205; Jaffna, Sri Lanka / UTC+5:30</p>
+                </div>
+            </div>
+
+            <!-- Social Proof Links & Legal -->
+            <div class="flex flex-col md:items-end gap-3">
+                <div class="flex flex-wrap items-center gap-6 text-sm font-medium text-slate-400">
+                    <a href="https://github.com/gobik1990" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-cyan-400 transition-colors">GitHub</a>
+                    <a href="https://www.linkedin.com/in/gobikrishna-subramaniyam" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-cyan-400 transition-colors">LinkedIn</a>
+                    <a href="https://medium.com/@gobik1990" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-cyan-400 transition-colors">Medium</a>
+                    <a href="/#contact" class="hover:text-cyan-400 transition-colors">Contact</a>
+                </div>
+                <p class="text-xs font-mono text-slate-400">Email: <a href="mailto:gobi@codeportlab.com" class="text-cyan-400 hover:underline">gobi@codeportlab.com</a></p>
+                <p class="text-xs text-slate-600">&copy; 2026 CodePortLab. Cloud &amp; DevOps B2B Consulting.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Modal Controllers -->
+    <script>
+        function toggleAuditModal() {
+            const modal = document.getElementById('audit-modal');
+            if (!modal) return;
+            const isHidden = modal.classList.toggle('hidden');
+            if (!isHidden) {
+                const input = document.getElementById('audit-email');
+                if (input) input.focus();
+            }
+        }
+
+        window.addEventListener('click', (e) => {
+            const auditModal = document.getElementById('audit-modal');
+            if (e.target === auditModal) toggleAuditModal();
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const auditModal = document.getElementById('audit-modal');
+                if (auditModal && !auditModal.classList.contains('hidden')) {
+                    toggleAuditModal();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

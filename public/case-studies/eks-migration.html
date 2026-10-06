@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise EKS &amp; AWS Cost Optimization | CodePortLab Lab Benchmark</title>
+    <link rel="canonical" href="https://codeportlab.com/case-studies/eks-migration.html">
+    <meta name="description" content="Infrastructure lab benchmark exploring a migration of monolithic workloads to AWS EKS with Terraform IaC, automated GitOps CI/CD pipelines, and secret management via HashiCorp Vault.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://codeportlab.com/case-studies/eks-migration.html">
+    <meta property="og:title" content="Enterprise EKS &amp; AWS Cost Optimization | CodePortLab Lab Benchmark">
+    <meta property="og:description" content="A self-directed lab project exploring a migration of monolithic workloads to AWS EKS using Terraform, ArgoCD, and HashiCorp Vault.">
+    <meta property="og:site_name" content="CodePortLab">
+    <meta property="og:image" content="https://codeportlab.com/images/logo_icon_transparent.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Enterprise EKS &amp; AWS Cost Optimization | CodePortLab">
+    <meta name="twitter:description" content="Self-directed engineering benchmark: migrating monolithic workloads to AWS EKS using Terraform IaC, GitOps, and dynamic secret management.">
+    <meta name="twitter:image" content="https://codeportlab.com/images/logo_icon_transparent.png">
+    <link rel="icon" type="image/png" href="/images/logo_icon_transparent.png">
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Enterprise EKS & AWS Cost Optimization",
+        "description": "Infrastructure lab benchmark exploring a migration of monolithic workloads to AWS EKS using Terraform and GitOps.",
+        "url": "https://codeportlab.com/case-studies/eks-migration.html",
+        "author": {
+            "@type": "Person",
+            "name": "Gobikrishna Subramaniyam",
+            "jobTitle": "Founder & Senior Cloud Architect",
+            "url": "https://codeportlab.com/"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "CodePortLab",
+            "url": "https://codeportlab.com/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://codeportlab.com/images/logo_icon_transparent.png"
+            }
+        },
+        "datePublished": "2026-01-01",
+        "dateModified": "2026-10-06"
+    }
+    </script>
+</head>
+
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950">
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-800" aria-label="Main Navigation">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3" aria-label="CodePortLab Home">
+                <img src="/images/logo_icon_transparent.png" alt="CodePortLab Logo" class="h-10 w-auto object-contain">
+                <div class="flex flex-col leading-none">
+                    <span class="font-mono text-lg font-bold text-white">CodePort<span class="text-cyan-400">Lab</span></span>
+                    <span class="text-[10px] text-slate-400 tracking-widest font-mono mt-0.5">CLOUD &amp; DEVOPS</span>
+                </div>
+            </a>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="/#services" class="hover:text-cyan-400 transition-colors">Services</a>
+                <a href="/#case-studies" class="text-cyan-400 font-semibold transition-colors">Case Studies</a>
+                <a href="/#journal" class="hover:text-cyan-400 transition-colors">Tech Journal</a>
+                <a href="/#terminal" class="hover:text-cyan-400 transition-colors">Terminal</a>
+                <a href="/#contact" class="hover:text-cyan-400 transition-colors">Contact</a>
+            </div>
+            <button type="button" onclick="toggleAuditModal()"
+                class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-slate-950">
+                Book Audit
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <!-- Breadcrumb Navigation -->
+        <nav class="mb-8" aria-label="Breadcrumb">
+            <ol class="flex items-center gap-2 text-xs font-mono text-slate-400">
+                <li><a href="/" class="hover:text-cyan-400 transition-colors">Home</a></li>
+                <li class="text-slate-600">/</li>
+                <li><a href="/#case-studies" class="hover:text-cyan-400 transition-colors">Case Studies</a></li>
+                <li class="text-slate-600">/</li>
+                <li class="text-cyan-300" aria-current="page">EKS Migration</li>
+            </ol>
+        </nav>
+
+        <!-- Case Study Header -->
+        <header class="mb-12 border-b border-slate-900 pb-10">
+            <!-- Label near top: Infrastructure Lab Benchmark — self-directed, not billed client work -->
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+                <span class="inline-flex items-center px-3 py-1 rounded text-xs font-mono font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/30">
+                    Infrastructure Lab Benchmark &mdash; self-directed, not billed client work
+                </span>
+                <span class="inline-flex items-center px-3 py-1 rounded text-xs font-mono font-medium bg-slate-800 text-slate-300 border border-slate-700">
+                    Cloud Architecture &amp; IaC
+                </span>
+                <span class="inline-flex items-center px-3 py-1 rounded text-xs font-mono font-medium bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+                    Kubernetes &amp; EKS
+                </span>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
+                Enterprise EKS &amp; AWS Cost Optimization
+            </h1>
+
+            <p class="text-lg text-slate-400 leading-relaxed max-w-3xl">
+                A lab project exploring a migration of monolithic workloads to AWS EKS using Terraform and GitOps.
+            </p>
+
+            <!-- Metadata & Technology Stack Badges -->
+            <div class="mt-6 flex flex-wrap items-center gap-2 pt-6 border-t border-slate-900">
+                <span class="text-xs font-mono text-slate-400 mr-2">TECH STACK:</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">AWS EKS</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">Kubernetes</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">Terraform IaC</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">Docker</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">GitHub Actions</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">ArgoCD</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">HashiCorp Vault</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs">Trivy</span>
+            </div>
+        </header>
+
+        <!-- 4 Core Sections: Challenge, Environment, Solution, Results -->
+        <article class="space-y-12">
+
+            <!-- Section 1: Challenge -->
+            <section class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 sm:p-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-mono font-bold text-sm">01</span>
+                    <h2 class="text-2xl font-bold text-white tracking-tight">Challenge</h2>
+                </div>
+                <div class="text-slate-300 leading-relaxed space-y-4 text-sm sm:text-base">
+                    <p>
+                        Legacy monolithic applications hosted on static server infrastructure frequently suffer from rigid scaling limits, prolonged deployment cycles, and unpredictable cloud operational overhead. Transitioning these systems to a modern cloud-native architecture requires addressing several architectural bottlenecks:
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-slate-400 text-sm ml-2">
+                        <li>Decomposing monolithic operational dependencies into containerized microservices without service interruption.</li>
+                        <li>Eliminating configuration drift and manual server provisioning through declarative, modular Infrastructure as Code (IaC).</li>
+                        <li>Securing sensitive database credentials and API tokens at runtime instead of relying on long-lived, hardcoded secrets.</li>
+                        <li>Preventing runaway cloud spending by tailoring cluster resource allocations, autoscaling policies, and container rightsizing.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section 2: Environment -->
+            <section class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 sm:p-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-mono font-bold text-sm">02</span>
+                    <h2 class="text-2xl font-bold text-white tracking-tight">Environment</h2>
+                </div>
+                <div class="text-slate-300 leading-relaxed space-y-4 text-sm sm:text-base">
+                    <p>
+                        This infrastructure benchmark was modeled within a dedicated AWS lab environment utilizing enterprise-grade tooling:
+                    </p>
+                    <div class="grid sm:grid-cols-2 gap-4 mt-4">
+                        <div class="bg-slate-950/60 border border-slate-800/80 p-4 rounded-xl">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider block mb-1">Container Orchestration</span>
+                            <p class="text-white text-sm font-semibold">AWS Elastic Kubernetes Service (EKS)</p>
+                            <p class="text-slate-400 text-xs mt-1">Multi-AZ managed control plane with containerized workloads running on optimized node groups.</p>
+                        </div>
+                        <div class="bg-slate-950/60 border border-slate-800/80 p-4 rounded-xl">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider block mb-1">Infrastructure Provisioning</span>
+                            <p class="text-white text-sm font-semibold">Terraform IaC</p>
+                            <p class="text-slate-400 text-xs mt-1">Modular configurations defining VPC topology, subnets, route tables, IAM roles, and EKS clusters.</p>
+                        </div>
+                        <div class="bg-slate-950/60 border border-slate-800/80 p-4 rounded-xl">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider block mb-1">GitOps &amp; CI/CD</span>
+                            <p class="text-white text-sm font-semibold">GitHub Actions &amp; ArgoCD</p>
+                            <p class="text-slate-400 text-xs mt-1">Automated image builds, test validation, Trivy container security scans, and declarative cluster sync.</p>
+                        </div>
+                        <div class="bg-slate-950/60 border border-slate-800/80 p-4 rounded-xl">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider block mb-1">Secret Governance</span>
+                            <p class="text-white text-sm font-semibold">HashiCorp Vault</p>
+                            <p class="text-slate-400 text-xs mt-1">Centralized dynamic secrets management with automated credential injection and periodic rotation.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Solution -->
+            <section class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 sm:p-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-mono font-bold text-sm">03</span>
+                    <h2 class="text-2xl font-bold text-white tracking-tight">Solution</h2>
+                </div>
+                <div class="text-slate-300 leading-relaxed space-y-6 text-sm sm:text-base">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <span class="text-cyan-400 font-mono text-sm">&gt;</span> Declarative Terraform Infrastructure as Code (IaC)
+                        </h3>
+                        <p class="text-slate-400 text-sm">
+                            Built modular, version-controlled Terraform modules specifying private VPC networks, bastion controls, security group rules, and managed EKS node groups. All infrastructure definitions are immutable and peer-reviewed via pull requests prior to execution.
+                        </p>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-800/80">
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <span class="text-cyan-400 font-mono text-sm">&gt;</span> GitOps Continuous Delivery with GitHub Actions &amp; ArgoCD
+                        </h3>
+                        <p class="text-slate-400 text-sm">
+                            Implemented automated pipelines that package Docker images, execute Trivy vulnerability checks, and push manifests to a central GitOps repository. ArgoCD continuously reconciles desired Git state with cluster runtime, eliminating manual kubectl interventions.
+                        </p>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-800/80">
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <span class="text-cyan-400 font-mono text-sm">&gt;</span> Dynamic Secret Management via HashiCorp Vault
+                        </h3>
+                        <p class="text-slate-400 text-sm">
+                            Integrated HashiCorp Vault to inject short-lived, rotated credentials directly into application pods at runtime, eliminating hardcoded plaintext secrets and static API tokens from cluster manifests.
+                        </p>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-800/80">
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <span class="text-cyan-400 font-mono text-sm">&gt;</span> Resource Rightsizing &amp; Cost Control
+                        </h3>
+                        <p class="text-slate-400 text-sm">
+                            Architected horizontal pod autoscaling (HPA) coupled with cluster autoscaling rules to scale down node pools during low-traffic windows, systematically cutting unused compute allocation.
+                        </p>
+                        <p class="text-xs font-mono text-slate-500 mt-2">
+                            Related technical analysis: <a href="https://medium.com/@gobik1990/ecs-vs-eks-which-aws-container-orchestrator-is-right-for-your-business-25b4445eb9a1" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline">"ECS vs. EKS: Which AWS Container Orchestrator Is Right for Your Business?"</a>.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Results -->
+            <section class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 sm:p-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-mono font-bold text-sm">04</span>
+                    <h2 class="text-2xl font-bold text-white tracking-tight">Results</h2>
+                </div>
+                <div class="text-slate-300 leading-relaxed space-y-4 text-sm sm:text-base">
+                    <p>
+                        This infrastructure lab benchmark confirmed practical operational workflows and blueprint patterns for enterprise container migration:
+                    </p>
+                    <ul class="space-y-3 text-slate-400 text-sm">
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-emerald-400 font-mono font-bold text-base leading-none mt-1">&#10003;</span>
+                            <span><strong class="text-white">Reproducible Cloud Blueprints:</strong> Entire AWS EKS cluster, networking, and security architecture codified in reusable Terraform modules for rapid, error-free environment provisioning.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-emerald-400 font-mono font-bold text-base leading-none mt-1">&#10003;</span>
+                            <span><strong class="text-white">Automated GitOps Synchronization:</strong> Declarative cluster state management via ArgoCD ensuring zero manual production interventions and streamlined rollback capability.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-emerald-400 font-mono font-bold text-base leading-none mt-1">&#10003;</span>
+                            <span><strong class="text-white">Zero Hardcoded Credentials:</strong> Runtime secret injection through HashiCorp Vault preventing static credentials from being checked into source repositories.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-emerald-400 font-mono font-bold text-base leading-none mt-1">&#10003;</span>
+                            <span><strong class="text-white">Efficient Resource Footprint:</strong> Right-sized node pools and autoscaling rules providing a validated model for enterprise cloud infrastructure cost control.</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+        </article>
+
+        <!-- Contextual Links: Matching Service Card & Contact Section -->
+        <section class="mt-12 pt-8 border-t border-slate-900 grid sm:grid-cols-2 gap-6" aria-label="Related Links">
+            <!-- Link to Matching Service Card -->
+            <a href="/#service-cloud-architecture"
+                class="group bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 rounded-xl p-6 transition-all flex flex-col justify-between">
+                <div>
+                    <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider block mb-1">RELATED SERVICE</span>
+                    <h3 class="text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
+                        AWS &amp; Cloud Architecture &rarr;
+                    </h3>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+                        Production-ready IaC with Terraform, Kubernetes (EKS/AKS) clusters, secure networking, and cloud cost optimization.
+                    </p>
+                </div>
+                <span class="text-xs font-mono text-cyan-400 font-semibold mt-4 block">View Service Card &rarr;</span>
+            </a>
+
+            <!-- Link to Contact Section -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider block mb-1">NEED KUBERNETES EXPERTISE?</span>
+                    <h3 class="text-base font-bold text-white">
+                        Book an Infrastructure Assessment
+                    </h3>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+                        Planning an EKS migration, Terraform refactor, or cloud cost review? Let's analyze your infrastructure architecture.
+                    </p>
+                </div>
+                <div class="mt-4 flex items-center gap-3">
+                    <button type="button" onclick="toggleAuditModal()"
+                        class="px-4 py-2 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs rounded transition-all">
+                        Book Audit
+                    </button>
+                    <a href="/#contact" class="text-xs font-mono text-slate-300 hover:text-cyan-400 transition-colors">
+                        Contact Details &rarr;
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Back to Case Studies Navigation -->
+        <div class="mt-12 text-center">
+            <a href="/#case-studies"
+                class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-sm font-semibold text-slate-300 hover:text-white transition-all">
+                <span>&larr; Back to All Case Studies</span>
+            </a>
+        </div>
+    </main>
+
+    <!-- Book Infrastructure Audit Modal -->
+    <div id="audit-modal"
+        class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4"
+        role="dialog" aria-modal="true" aria-labelledby="audit-modal-title">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl">
+            <button type="button" onclick="toggleAuditModal()" aria-label="Close modal"
+                class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded p-1">&times;</button>
+
+            <h3 id="audit-modal-title" class="text-2xl font-bold text-white mb-2">Book Infrastructure Audit</h3>
+            <p class="text-slate-400 text-sm mb-6">Fill in your email and primary cloud stack. I will respond within 24 hours.</p>
+
+            <form action="/contact" method="POST" class="space-y-4">
+                <div>
+                    <label for="audit-email" class="block text-xs font-mono text-slate-400 mb-1">YOUR EMAIL</label>
+                    <input type="email" id="audit-email" name="email" required placeholder="cto@company.com"
+                        class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
+                </div>
+                <div>
+                    <label for="audit-stack" class="block text-xs font-mono text-slate-400 mb-1">CLOUD / STACK (AWS, AZURE, DOCKER, LARAVEL 11 / PHP 8.2+ / MYSQL 8.0)</label>
+                    <input type="text" id="audit-stack" name="stack" required
+                        value="AWS EKS, Terraform IaC, Docker, Kubernetes"
+                        class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
+                </div>
+                <div>
+                    <label for="audit-scope" class="block text-xs font-mono text-slate-400 mb-1">PROJECT SCOPE &amp; GOALS</label>
+                    <textarea id="audit-scope" name="scope" rows="3" placeholder="Describe current architecture, pain points, or migration goals..."
+                        class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400"></textarea>
+                </div>
+                <button type="submit"
+                    class="w-full py-3 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold rounded transition-all">
+                    Submit Audit Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Founder Profile & Trust Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-16 px-4 sm:px-6 lg:px-8 mt-20" aria-label="Site Footer">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <!-- Founder Profile Badge -->
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-full bg-slate-800 border-2 border-cyan-500/40 flex items-center justify-center font-mono font-bold text-cyan-400 text-lg">
+                    GS
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-lg">Gobikrishna Subramaniyam</h4>
+                    <p class="text-slate-400 text-sm">Founder &amp; Senior Cloud Architect @ CodePortLab</p>
+                    <p class="text-xs font-mono text-slate-500 mt-1">&#128205; Jaffna, Sri Lanka / UTC+5:30</p>
+                </div>
+            </div>
+
+            <!-- Social Proof Links & Legal -->
+            <div class="flex flex-col md:items-end gap-3">
+                <div class="flex flex-wrap items-center gap-6 text-sm font-medium text-slate-400">
+                    <a href="https://github.com/gobik1990" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-cyan-400 transition-colors">GitHub</a>
+                    <a href="https://www.linkedin.com/in/gobikrishna-subramaniyam" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-cyan-400 transition-colors">LinkedIn</a>
+                    <a href="https://medium.com/@gobik1990" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-cyan-400 transition-colors">Medium</a>
+                    <a href="/#contact" class="hover:text-cyan-400 transition-colors">Contact</a>
+                </div>
+                <p class="text-xs font-mono text-slate-400">Email: <a href="mailto:gobi@codeportlab.com" class="text-cyan-400 hover:underline">gobi@codeportlab.com</a></p>
+                <p class="text-xs text-slate-600">&copy; 2026 CodePortLab. Cloud &amp; DevOps B2B Consulting.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Modal Controllers -->
+    <script>
+        function toggleAuditModal() {
+            const modal = document.getElementById('audit-modal');
+            if (!modal) return;
+            const isHidden = modal.classList.toggle('hidden');
+            if (!isHidden) {
+                const input = document.getElementById('audit-email');
+                if (input) input.focus();
+            }
+        }
+
+        window.addEventListener('click', (e) => {
+            const auditModal = document.getElementById('audit-modal');
+            if (e.target === auditModal) toggleAuditModal();
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const auditModal = document.getElementById('audit-modal');
+                if (auditModal && !auditModal.classList.contains('hidden')) {
+                    toggleAuditModal();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

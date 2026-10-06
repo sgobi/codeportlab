@@ -32,14 +32,14 @@ class PortfolioController extends Controller
 
                 if ($isRoseVilla) {
                     $actionType = 'rose_villa';
-                    $link = '#rose-villa-modal';
+                    $link = '/case-studies/rose-villa.html';
                 } elseif ($project->article_url && !str_starts_with($project->article_url, '#') && !str_contains($project->article_url, '#journal')) {
                     $actionType = 'external';
                     $link = $project->article_url;
                     $linkText = str_contains($project->article_url, 'github') ? 'GitHub Repo' : 'View Benchmark Details';
                 } else {
                     $actionType = 'preview';
-                    $link = '#preview-modal';
+                    $link = str_contains(strtolower($project->title ?? ''), 'compliance') ? '/case-studies/iac-compliance.html' : '/case-studies/eks-migration.html';
                 }
 
                 return [
@@ -67,7 +67,7 @@ class PortfolioController extends Controller
                         'Zero-Downtime Deployment',
                         '99.99% Uptime',
                     ],
-                    'link' => '#preview-modal',
+                    'link' => '/case-studies/eks-migration.html',
                     'link_text' => 'View Benchmark Details',
                     'action_type' => 'preview',
                 ],
@@ -82,8 +82,8 @@ class PortfolioController extends Controller
                         'Automated Offsite Backups',
                         '50k req/min Capacity',
                     ],
-                    'link' => '#rose-villa-modal',
-                    'link_text' => 'View Benchmark Details',
+                    'link' => '/case-studies/rose-villa.html',
+                    'link_text' => 'View Case Study',
                     'action_type' => 'rose_villa',
                 ],
                 [
@@ -97,7 +97,7 @@ class PortfolioController extends Controller
                         'Zero Hardcoded Secrets',
                         '95%+ CIS Compliance',
                     ],
-                    'link' => '#preview-modal',
+                    'link' => '/case-studies/iac-compliance.html',
                     'link_text' => 'View Benchmark Details',
                     'action_type' => 'preview',
                 ],
