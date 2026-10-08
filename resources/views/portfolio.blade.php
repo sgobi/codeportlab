@@ -361,6 +361,7 @@
             </button>
         </div>
     </section>
+
     <!-- Tech Journal Section (Fixes #journal link) -->
     <section id="journal" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-900">
         <div class="text-center mb-12">
@@ -369,72 +370,41 @@
                 Containerization, and DevOps Engineering.</p>
         </div>
         <div class="grid md:grid-cols-3 gap-6">
-            <!-- Article 1: Zero-Touch Deployments on Shared cPanel Hosting -->
-            <a href="https://medium.com/@gobik1990/zero-touch-deployments-on-shared-cpanel-hosting-with-github-actions-010d1e875444"
-                target="_blank" rel="noopener noreferrer"
-                class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
-                <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">DEVOPS &amp; CI/CD</span>
-                        <span
-                            class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
+            @forelse($techUpdates as $article)
+                @php
+                    $articleUrl = $article->external_url ?: '#journal';
+                    $isExternal = !empty($article->external_url) && (str_starts_with($article->external_url, 'http://') || str_starts_with($article->external_url, 'https://'));
+                @endphp
+                <a href="{{ $articleUrl }}" @if($isExternal) target="_blank" rel="noopener noreferrer" @endif
+                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span
+                                class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{{ $article->category ?: 'TECH JOURNAL' }}</span>
+                            @if($article->is_pinned)
+                                <span
+                                    class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Featured</span>
+                            @else
+                                <span
+                                    class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
+                            @endif
+                        </div>
+                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
+                            {{ $article->title }}
+                        </h3>
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                            {{ $article->summary }}
+                        </p>
                     </div>
-                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
-                        Zero-Touch Deployments on Shared cPanel Hosting with GitHub Actions
-                    </h3>
-                    <p class="text-slate-400 text-sm mt-2 leading-relaxed">CI/CD for shared cPanel with no SSH: GitHub
-                        Actions, FTPS sync, a key-protected PHP deploy hook, and a health check.</p>
-                </div>
-                <div
-                    class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
-                    <span>Read Article &rarr;</span>
-                </div>
-            </a>
+                    <div
+                        class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
+                        <span>Read Article &rarr;</span>
+                    </div>
+                </a>
+            @empty
 
-            <!-- Article 2: Ingress NGINX Retirement in March 2026 -->
-            <a href="https://medium.com/@gobik1990/ingress-nginx-retirement-in-march-2026-what-to-do-when-to-do-it-and-why-fb692cfc16d2"
-                target="_blank" rel="noopener noreferrer"
-                class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
-                <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">KUBERNETES</span>
-                        <span
-                            class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
-                        Ingress NGINX Retirement in March 2026: What to Do, When to Do It, and Why
-                    </h3>
-                    <p class="text-slate-400 text-sm mt-2 leading-relaxed">A phased migration plan from Ingress NGINX to
-                        Gateway API, with a comparison of NGINX, F5 BIG-IP and API gateways.</p>
-                </div>
-                <div
-                    class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
-                    <span>Read Article &rarr;</span>
-                </div>
-            </a>
 
-            <!-- Article 3: ECS vs. EKS -->
-            <a href="https://medium.com/@gobik1990/ecs-vs-eks-which-aws-container-orchestrator-is-right-for-your-business-25b4445eb9a1"
-                target="_blank" rel="noopener noreferrer"
-                class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
-                <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">AWS &amp;
-                            CONTAINERS</span>
-                        <span
-                            class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
-                        ECS vs. EKS: Which AWS Container Orchestrator Is Right for Your Business?
-                    </h3>
-                    <p class="text-slate-400 text-sm mt-2 leading-relaxed">A practical comparison of AWS ECS and EKS to
-                        help you choose a container orchestrator.</p>
-                </div>
-                <div
-                    class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
-                    <span>Read Article &rarr;</span>
-                </div>
-            </a>
+            @endforelse
         </div>
     </section>
 

@@ -108,7 +108,7 @@ class PortfolioController extends Controller
         $techUpdates = TechUpdate::where('is_published', true)
             ->orderBy('is_pinned', 'desc')
             ->orderBy('published_at', 'desc')
-            ->take(4)
+            ->take(6)
             ->get();
 
         return view('portfolio', compact('siteProfile', 'caseStudies', 'techUpdates'));

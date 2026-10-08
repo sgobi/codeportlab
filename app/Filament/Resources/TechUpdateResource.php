@@ -76,7 +76,7 @@ class TechUpdateResource extends Resource
 
                 Tables\Columns\TextColumn::make('category')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'DevOps & Cloud' => 'info',
                         'Full-Stack' => 'success',
                         'AI & Tooling' => 'warning',
