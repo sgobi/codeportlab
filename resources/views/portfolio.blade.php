@@ -181,44 +181,30 @@
             <p class="text-slate-400 max-w-2xl mx-auto">Scalable infrastructure, automated delivery pipelines, and fully
                 managed cloud deployments tailored for businesses.</p>
         </div>
+
         <div class="grid md:grid-cols-3 gap-8">
-            <div id="service-cloud-architecture"
-                class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl hover:border-cyan-500/50 transition-all">
-                <div
-                    class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded-lg flex items-center justify-center font-mono font-bold mb-6">
-                    &gt;_</div>
-                <h3 class="text-xl font-bold text-white mb-3">AWS & Cloud Architecture</h3>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">Production-ready IaC with Terraform, Kubernetes
-                    (EKS/AKS) clusters, secure networking, and cloud cost optimization.</p>
-                <a href="#contact"
-                    class="text-cyan-400 text-sm font-semibold hover:text-cyan-300 flex items-center gap-1">Request
-                    Audit &rarr;</a>
-            </div>
-            <div id="service-devsecops"
-                class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl hover:border-cyan-500/50 transition-all">
-                <div
-                    class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded-lg flex items-center justify-center font-mono font-bold mb-6">
-                    #</div>
-                <h3 class="text-xl font-bold text-white mb-3">DevSecOps & CI/CD Pipelines</h3>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">Automated GitOps workflows with GitHub Actions &
-                    ArgoCD, credential rotation with HashiCorp Vault, and Trivy security scans.</p>
-                <a href="#contact"
-                    class="text-cyan-400 text-sm font-semibold hover:text-cyan-300 flex items-center gap-1">Explore
-                    Workflows &rarr;</a>
-            </div>
-            <div id="service-backend-edge"
-                class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl hover:border-cyan-500/50 transition-all">
-                <div
-                    class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded-lg flex items-center justify-center font-mono font-bold mb-6">
-                    ::</div>
-                <h3 class="text-xl font-bold text-white mb-3">Productized Backend & Edge Infrastructure</h3>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">Managed backends (Laravel 11 / PHP 8.2+ / MySQL
-                    8.0), ESC/POS print engines, and
-                    cloud backups for retail & hospitality.</p>
-                <button onclick="toggleAuditModal()"
-                    class="text-cyan-400 text-sm font-semibold hover:text-cyan-300 flex items-center gap-1">Request
-                    Architecture &rarr;</button>
-            </div>
+            @foreach ($productizedSolutions as $solution)
+                <div id="{{ $solution->slug }}"
+                    class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl hover:border-cyan-500/50 transition-all">
+                    <div
+                        class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded-lg flex items-center justify-center font-mono font-bold mb-6">
+                        {{ $solution->icon_text }}
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">{{ $solution->title }}</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">{{ $solution->description }}</p>
+                    @if ($solution->opens_modal)
+                        <button type="button" onclick="toggleAuditModal()"
+                            class="text-cyan-400 text-sm font-semibold hover:text-cyan-300 flex items-center gap-1">{{ $solution->link_label }}
+                            &rarr;</button>
+                    @else
+                        <a href="{{ $solution->link_url }}"
+                            class="text-cyan-400 text-sm font-semibold hover:text-cyan-300 flex items-center gap-1">{{ $solution->link_label }}
+                            &rarr;</a>
+                    @endif
+                </div>
+            @endforeach
+        </div>
+
         </div>
     </section>
 

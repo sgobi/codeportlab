@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\ProductizedSolution;   // புதியது
+
 use App\Models\SiteProfile;
 use App\Models\TechUpdate;
 use Illuminate\Http\Request;
@@ -110,8 +112,10 @@ class PortfolioController extends Controller
             ->orderBy('published_at', 'desc')
             ->take(6)
             ->get();
-
-        return view('portfolio', compact('siteProfile', 'caseStudies', 'techUpdates'));
+        $productizedSolutions = ProductizedSolution::where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+        return view('portfolio', compact('siteProfile', 'caseStudies', 'techUpdates', 'productizedSolutions'));
     }
 
     /**

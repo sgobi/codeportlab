@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             SkillSeeder::class,
             ProjectSeeder::class,
             TechUpdateSeeder::class,
+            ProductizedSolutionSeeder::class,
         ]);
     }
 }
