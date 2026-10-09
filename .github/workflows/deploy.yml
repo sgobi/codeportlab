@@ -72,8 +72,8 @@ jobs:
       - name: 2. Setup PHP 8.1 (server பதிப்புடன் பொருந்த)
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
-          extensions: mbstring, xml, ctype, json, bcmath, intl, gd, zip, curl, pdo_mysql
+          php-version: '8.3'
+          extensions: mbstring, xml, ctype, json, bcmath, intl, gd, zip, curl, pdo_mysql, fileinfo
           tools: composer:v2
 
       # composer scripts (package:discover, filament:upgrade) இயங்க தேவை.
