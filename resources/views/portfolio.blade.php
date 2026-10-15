@@ -1,3 +1,13 @@
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RHK3EYVC14"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-RHK3EYVC14');
+</script>
+
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 
