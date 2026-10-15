@@ -14,12 +14,24 @@ class GenerateSitemap extends Command
     public function handle()
     {
         Sitemap::create()
-            ->add(Url::create('https://codeportlab.com/')->setPriority(1.0)->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY))
-            ->add(Url::create('https://codeportlab.com/services')->setPriority(0.8)->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY))
-            ->add(Url::create('https://codeportlab.com/case-studies')->setPriority(0.8)->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY))
-            ->add(Url::create('https://codeportlab.com/journal')->setPriority(0.8)->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY))
+            ->add(Url::create('https://codeportlab.com')
+                ->setLastModificationDate(now())
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+                ->setPriority(1.0))
+            ->add(Url::create('https://codeportlab.com/services')
+                ->setLastModificationDate(now())
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                ->setPriority(0.8))
+            ->add(Url::create('https://codeportlab.com/case-studies')
+                ->setLastModificationDate(now())
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+                ->setPriority(0.8))
+            ->add(Url::create('https://codeportlab.com/journal')
+                ->setLastModificationDate(now())
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+                ->setPriority(0.8))
             ->writeToFile(public_path('sitemap.xml'));
 
-        $this->info('Sitemap generated successfully with live URLs!');
+        $this->info('Sitemap generated successfully with full valid tags!');
     }
 }
