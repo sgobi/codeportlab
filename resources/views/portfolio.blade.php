@@ -27,7 +27,7 @@
         <meta property="og:image" content="{{ $siteProfile->logo_url }}">
     @endif
     <link rel="icon" type="image/png" href="{{ $siteProfile->logo_url }}">
-    <link rel="stylesheet" href="/css/output.css">
+    <link rel="stylesheet" href="/css/output.css?v={{ file_exists(public_path('css/output.css')) ? filemtime(public_path('css/output.css')) : '2.0' }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -97,7 +97,17 @@
         .font-mono {
             font-family: 'Fira Code', monospace;
         }
+
+        @media (min-width: 768px) {
+            .md\:hidden {
+                display: none !important;
+            }
+            .md\:flex {
+                display: flex !important;
+            }
+        }
     </style>
+
 </head>
 
 <body class="bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950">
