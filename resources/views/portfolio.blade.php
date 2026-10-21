@@ -1,19 +1,18 @@
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RHK3EYVC14"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-RHK3EYVC14');
-</script>
-
-
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RHK3EYVC14"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-RHK3EYVC14');
+    </script>
     <title>{{ $siteProfile->brand_name . $siteProfile->brand_accent }} | {{ $siteProfile->tagline }}</title>
     <link rel="canonical" href="https://codeportlab.com/">
     <meta name="description"
@@ -123,10 +122,29 @@
                 <a href="#terminal" class="hover:text-cyan-400 transition-colors">Terminal</a>
                 <a href="#contact" class="hover:text-cyan-400 transition-colors">Contact</a>
             </div>
-            <button onclick="toggleAuditModal()"
-                class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded transition-all">
-                Book Audit
-            </button>
+            <div class="flex items-center gap-3">
+                <button onclick="toggleAuditModal()"
+                    class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded transition-all">
+                    Book Audit
+                </button>
+                <button type="button" id="mobile-menu-toggle" aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle navigation menu"
+                    class="md:hidden p-2 text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-colors">
+                    <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Accessible Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-800 bg-slate-950/95 px-4 pt-3 pb-4 space-y-1">
+            <a href="#services" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-900 transition-colors">Services</a>
+            <a href="#case-studies" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-900 transition-colors">Case Studies</a>
+            <a href="#journal" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-900 transition-colors">Tech Journal</a>
+            <a href="#terminal" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-900 transition-colors">Terminal</a>
+            <a href="#contact" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-900 transition-colors">Contact</a>
         </div>
     </nav>
 
@@ -177,8 +195,8 @@
                 <div class="flex items-center gap-2 mt-4 text-emerald-300">
                     <span>guest@codeportlab:~$</span>
                     <input type="text" id="terminal-input"
-                        class="bg-transparent border-none outline-none text-emerald-300 w-full focus:ring-0" focus
-                        autofocus>
+                        class="bg-transparent border-none outline-none text-emerald-300 w-full focus:ring-0"
+                        aria-label="Terminal command input">
                 </div>
             </div>
         </div>
@@ -398,8 +416,62 @@
                     </div>
                 </a>
             @empty
+                <a href="https://medium.com/@gobik1990/zero-touch-deployments-on-shared-cpanel-hosting-with-github-actions-010d1e875444" target="_blank" rel="noopener noreferrer"
+                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">DEVOPS & CI/CD</span>
+                            <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">Featured</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
+                            Zero-Touch Deployments on Shared cPanel Hosting with GitHub Actions
+                        </h3>
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                            CI/CD for shared cPanel with no SSH: GitHub Actions, FTPS sync, a key-protected PHP deploy hook, and a health check.
+                        </p>
+                    </div>
+                    <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
+                        <span>Read Article &rarr;</span>
+                    </div>
+                </a>
 
+                <a href="https://medium.com/@gobik1990/ingress-nginx-retirement-in-march-2026-what-to-do-when-to-do-it-and-why-fb692cfc16d2" target="_blank" rel="noopener noreferrer"
+                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">KUBERNETES</span>
+                            <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
+                            Ingress NGINX Retirement in March 2026: What to Do, When to Do It, and Why
+                        </h3>
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                            A phased migration plan from Ingress NGINX to Gateway API, with a comparison of NGINX, F5 BIG-IP and API gateways.
+                        </p>
+                    </div>
+                    <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
+                        <span>Read Article &rarr;</span>
+                    </div>
+                </a>
 
+                <a href="https://medium.com/@gobik1990/ecs-vs-eks-which-aws-container-orchestrator-is-right-for-your-business-25b4445eb9a1" target="_blank" rel="noopener noreferrer"
+                    class="bg-slate-900/60 border border-slate-800 p-6 rounded-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">AWS & CONTAINERS</span>
+                            <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">Published</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
+                            ECS vs. EKS: Which AWS Container Orchestrator Is Right for Your Business?
+                        </h3>
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                            A practical comparison of AWS ECS and EKS to help you choose a container orchestrator.
+                        </p>
+                    </div>
+                    <div class="mt-4 flex items-center text-xs font-mono font-semibold text-cyan-400 group-hover:text-cyan-300 gap-1.5">
+                        <span>Read Article &rarr;</span>
+                    </div>
+                </a>
             @endforelse
         </div>
     </section>
@@ -432,7 +504,7 @@
         role="dialog" aria-modal="true" aria-labelledby="audit-modal-title">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl">
             <button type="button" onclick="toggleAuditModal()" aria-label="Close modal"
-                class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded p-1">&times;</button>
+                class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded p-1"><span aria-hidden="true">&times;</span></button>
 
             <h3 id="audit-modal-title" class="text-2xl font-bold text-white mb-2">Book Infrastructure Audit</h3>
             <p class="text-slate-400 text-sm mb-6">Fill in your email and primary cloud stack. I will respond
@@ -445,6 +517,26 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                     <span>{{ session('audit_success') }}</span>
+                </div>
+            @endif
+
+            @if(session('audit_warning'))
+                <div
+                    class="mb-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-xs flex items-center gap-2">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    <span>{{ session('audit_warning') }}</span>
+                </div>
+            @endif
+
+            @if(session('audit_error'))
+                <div
+                    class="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 font-mono text-xs flex items-center gap-2">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    <span>{{ session('audit_error') }}</span>
                 </div>
             @endif
 
@@ -496,7 +588,7 @@
         <div
             class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[90vh] overflow-y-auto">
             <button type="button" onclick="closeRoseVillaModal()" aria-label="Close modal"
-                class="absolute top-5 right-5 text-slate-400 hover:text-white text-2xl transition-colors">&times;</button>
+                class="absolute top-5 right-5 text-slate-400 hover:text-white text-2xl transition-colors"><span aria-hidden="true">&times;</span></button>
 
             <!-- Header Badges -->
             <div class="flex flex-wrap items-center gap-2 mb-3">
@@ -602,7 +694,7 @@
         <div
             class="bg-slate-900 border border-slate-800 rounded-2xl max-w-xl w-full p-6 sm:p-8 relative shadow-2xl my-8">
             <button type="button" onclick="closePreviewModal()" aria-label="Close modal"
-                class="absolute top-5 right-5 text-slate-400 hover:text-white text-2xl transition-colors">&times;</button>
+                class="absolute top-5 right-5 text-slate-400 hover:text-white text-2xl transition-colors"><span aria-hidden="true">&times;</span></button>
 
             <!-- Badge -->
             <div class="flex items-center gap-2 mb-3">
@@ -719,24 +811,42 @@
 
     <!-- Terminal JavaScript Command Engine & Modal Controllers -->
     <script>
+        function syncBodyScroll() {
+            const isModalOpen = [
+                document.getElementById('audit-modal'),
+                document.getElementById('rose-villa-modal'),
+                document.getElementById('preview-modal')
+            ].some(modal => modal && !modal.classList.contains('hidden'));
+
+            if (isModalOpen) {
+                document.body.classList.add('overflow-hidden');
+            } else {
+                document.body.classList.remove('overflow-hidden');
+            }
+        }
+
         function toggleAuditModal() {
             const modal = document.getElementById('audit-modal');
             if (modal) modal.classList.toggle('hidden');
+            syncBodyScroll();
         }
 
         function openRoseVillaModal() {
             const modal = document.getElementById('rose-villa-modal');
             if (modal) modal.classList.remove('hidden');
+            syncBodyScroll();
         }
 
         function closeRoseVillaModal() {
             const modal = document.getElementById('rose-villa-modal');
             if (modal) modal.classList.add('hidden');
+            syncBodyScroll();
         }
 
         function toggleRoseVillaModal() {
             const modal = document.getElementById('rose-villa-modal');
             if (modal) modal.classList.toggle('hidden');
+            syncBodyScroll();
         }
 
         function openPreviewModal(title, category, description, url) {
@@ -751,11 +861,39 @@
                 fullLink.href = url;
             }
             modal.classList.remove('hidden');
+            syncBodyScroll();
         }
 
         function closePreviewModal() {
             const modal = document.getElementById('preview-modal');
             if (modal) modal.classList.add('hidden');
+            syncBodyScroll();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const toggle = document.getElementById('mobile-menu-toggle');
+            const hamburger = document.getElementById('hamburger-icon');
+            const close = document.getElementById('close-icon');
+            if (!menu || !toggle) return;
+
+            const isHidden = menu.classList.toggle('hidden');
+            toggle.setAttribute('aria-expanded', !isHidden);
+            if (hamburger) hamburger.classList.toggle('hidden', !isHidden);
+            if (close) close.classList.toggle('hidden', isHidden);
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const toggle = document.getElementById('mobile-menu-toggle');
+            const hamburger = document.getElementById('hamburger-icon');
+            const close = document.getElementById('close-icon');
+            if (!menu || !toggle) return;
+
+            menu.classList.add('hidden');
+            toggle.setAttribute('aria-expanded', 'false');
+            if (hamburger) hamburger.classList.remove('hidden');
+            if (close) close.classList.add('hidden');
         }
 
         window.addEventListener('click', (e) => {
@@ -765,6 +903,12 @@
             if (e.target === rvModal) closeRoseVillaModal();
             if (e.target === prevModal) closePreviewModal();
             if (e.target === auditModal) toggleAuditModal();
+
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileToggle = document.getElementById('mobile-menu-toggle');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden') && !mobileMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+                closeMobileMenu();
+            }
         });
 
         window.addEventListener('keydown', (e) => {
@@ -775,20 +919,37 @@
                 if (auditModal && !auditModal.classList.contains('hidden')) {
                     toggleAuditModal();
                 }
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                    closeMobileMenu();
+                    const toggle = document.getElementById('mobile-menu-toggle');
+                    if (toggle) toggle.focus();
+                }
             }
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            @if(session('audit_success') || $errors->any())
+            const mobileToggle = document.getElementById('mobile-menu-toggle');
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', toggleMobileMenu);
+            }
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            @if(session('audit_success') || session('audit_warning') || session('audit_error') || $errors->any())
                 const modal = document.getElementById('audit-modal');
-                if (modal) modal.classList.remove('hidden');
+                if (modal) {
+                    modal.classList.remove('hidden');
+                    syncBodyScroll();
+                }
             @endif
             const input = document.getElementById('terminal-input');
             const output = document.getElementById('terminal-output');
 
             const commands = {
                 'help': 'Available commands: <span class="text-amber-300">services</span>, <span class="text-amber-300">stack</span>, <span class="text-amber-300">contact</span>, <span class="text-amber-300">clear</span>',
-                'services': '1. AWS/Azure Cloud Infrastructure & IaC\n2. DevSecOps & Automated CI/CD Pipelines\n3. Managed Retail POS & Cloud Deployments',
+                'services': '1. AWS/Azure Cloud Infrastructure & IaC<br>2. DevSecOps & Automated CI/CD Pipelines<br>3. Managed Retail POS & Cloud Deployments',
                 'stack': 'Laravel 11 / PHP 8.2+ / MySQL 8.0, Filament v3, Terraform, Docker, Kubernetes, AWS EKS, Tailwind CSS',
                 'contact': 'Email: {{ $siteProfile->email }} | Location: {{ $siteProfile->location }}'
             };
@@ -802,7 +963,7 @@
                     if (cmd === 'clear') {
                         output.innerHTML = '';
                     } else if (commands[cmd]) {
-                        line.innerHTML = `<span class="text-slate-400">guest@codeportlab:~$ ${cmd}</span><br><span class="text-emerald-300">${commands[cmd]}</span>`;
+                        line.innerHTML = `<span class="text-slate-400">guest@codeportlab:~$ ${cmd}</span><br><span class="text-emerald-300 whitespace-pre-line">${commands[cmd]}</span>`;
                         output.appendChild(line);
                     } else if (cmd !== '') {
                         line.innerHTML = `<span class="text-slate-400">guest@codeportlab:~$ ${cmd}</span><br><span class="text-red-400">Command not found. Type 'help'.</span>`;

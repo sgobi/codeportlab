@@ -1,4 +1,5 @@
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /login
 
 Sitemap: https://codeportlab.com/sitemap.xml

@@ -69,10 +69,10 @@
                 <a href="/#terminal" class="hover:text-cyan-400 transition-colors">Terminal</a>
                 <a href="/#contact" class="hover:text-cyan-400 transition-colors">Contact</a>
             </div>
-            <button type="button" onclick="toggleAuditModal()"
+            <a href="https://codeportlab.com/#contact"
                 class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-slate-950">
                 Book Audit
-            </button>
+            </a>
         </div>
     </nav>
 
@@ -293,10 +293,10 @@
                     </p>
                 </div>
                 <div class="mt-4 flex items-center gap-3">
-                    <button type="button" onclick="toggleAuditModal()"
+                    <a href="https://codeportlab.com/#contact"
                         class="px-4 py-2 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs rounded transition-all">
                         Book Audit
-                    </button>
+                    </a>
                     <a href="/#contact" class="text-xs font-mono text-slate-300 hover:text-cyan-400 transition-colors">
                         Contact Details &rarr;
                     </a>
@@ -313,41 +313,7 @@
         </div>
     </main>
 
-    <!-- Book Infrastructure Audit Modal -->
-    <div id="audit-modal"
-        class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4"
-        role="dialog" aria-modal="true" aria-labelledby="audit-modal-title">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl">
-            <button type="button" onclick="toggleAuditModal()" aria-label="Close modal"
-                class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded p-1">&times;</button>
 
-            <h3 id="audit-modal-title" class="text-2xl font-bold text-white mb-2">Book Infrastructure Audit</h3>
-            <p class="text-slate-400 text-sm mb-6">Fill in your email and primary cloud stack. I will respond within 24 hours.</p>
-
-            <form action="/contact" method="POST" class="space-y-4">
-                <div>
-                    <label for="audit-email" class="block text-xs font-mono text-slate-400 mb-1">YOUR EMAIL</label>
-                    <input type="email" id="audit-email" name="email" required placeholder="cto@company.com"
-                        class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
-                </div>
-                <div>
-                    <label for="audit-stack" class="block text-xs font-mono text-slate-400 mb-1">CLOUD / STACK (AWS, AZURE, DOCKER, LARAVEL 11 / PHP 8.2+ / MYSQL 8.0)</label>
-                    <input type="text" id="audit-stack" name="stack" required
-                        value="AWS EKS, Terraform IaC, Docker, Kubernetes"
-                        class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
-                </div>
-                <div>
-                    <label for="audit-scope" class="block text-xs font-mono text-slate-400 mb-1">PROJECT SCOPE &amp; GOALS</label>
-                    <textarea id="audit-scope" name="scope" rows="3" placeholder="Describe current architecture, pain points, or migration goals..."
-                        class="w-full bg-slate-950 border border-slate-800 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400"></textarea>
-                </div>
-                <button type="submit"
-                    class="w-full py-3 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold rounded transition-all">
-                    Submit Audit Request
-                </button>
-            </form>
-        </div>
-    </div>
 
     <!-- Founder Profile & Trust Footer -->
     <footer class="bg-slate-950 border-t border-slate-900 py-16 px-4 sm:px-6 lg:px-8 mt-20" aria-label="Site Footer">
@@ -381,32 +347,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript Modal Controllers -->
-    <script>
-        function toggleAuditModal() {
-            const modal = document.getElementById('audit-modal');
-            if (!modal) return;
-            const isHidden = modal.classList.toggle('hidden');
-            if (!isHidden) {
-                const input = document.getElementById('audit-email');
-                if (input) input.focus();
-            }
-        }
 
-        window.addEventListener('click', (e) => {
-            const auditModal = document.getElementById('audit-modal');
-            if (e.target === auditModal) toggleAuditModal();
-        });
-
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                const auditModal = document.getElementById('audit-modal');
-                if (auditModal && !auditModal.classList.contains('hidden')) {
-                    toggleAuditModal();
-                }
-            }
-        });
-    </script>
 </body>
 
 </html>

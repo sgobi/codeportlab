@@ -54,6 +54,11 @@
 </IfModule>
 
 <IfModule mod_headers.c>
+    # Baseline Security Headers (Safe for CloudLinux/cPanel Apache with GTM & Google Fonts)
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
     <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|webp|svg|woff|woff2|ttf)$">
         Header set Cache-Control "max-age=31536000, public, immutable"
     </FilesMatch>

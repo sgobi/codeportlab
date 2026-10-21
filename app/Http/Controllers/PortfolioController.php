@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubmitAuditRequest;
+use App\Models\AuditRequest;
 use App\Models\Project;
 use App\Models\ProductizedSolution;   // புதியது
-
 use App\Models\SiteProfile;
 use App\Models\TechUpdate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class PortfolioController extends Controller
 {
@@ -121,37 +124,70 @@ class PortfolioController extends Controller
     /**
      * Handle inbound infrastructure audit booking requests.
      */
-    public function submitAudit(Request $request)
+    public function submitAudit(SubmitAuditRequest $request)
     {
-        $validated = $request->validate([
-            'email' => 'required|email|max:255',
-            'stack' => 'required|string|max:255',
-            'scope' => 'nullable|string|max:2000',
-        ]);
+        $validated = $request->validated();
 
+        // Duplicate submission protection: identical recent submission within a 5-minute window
+        $recentDuplicate = AuditRequest::where('email', $validated['email'])
+            ->where('stack', $validated['stack'])
+            ->where('created_at', '>=', now()->subMinutes(5))
+            ->first();
+
+        if ($recentDuplicate) {
+            $duplicateMessage = 'Thank you! Your audit request has already been received and is being processed.';
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => $duplicateMessage,
+                ]);
+            }
+
+            return redirect()->to(url('/#contact'))->with('audit_success', $duplicateMessage);
+        }
+
+        // Step 3: Store first
         try {
-            $siteProfile = SiteProfile::getActive();
-            $recipient = $siteProfile->email ?: 'gobi@codeportlab.com';
-
-            \Illuminate\Support\Facades\Mail::raw(
-                "New Infrastructure Audit Request:\n\nEmail: {$validated['email']}\nCloud/Stack: {$validated['stack']}\nScope: " . ($validated['scope'] ?? 'None provided'),
-                function ($message) use ($recipient, $validated) {
-                    $message->to($recipient)
-                        ->replyTo($validated['email'])
-                        ->subject('New Infrastructure Audit Request - CodePortLab');
-                }
-            );
+            $auditRequest = AuditRequest::create([
+                'email' => $validated['email'],
+                'stack' => $validated['stack'],
+                'scope' => $validated['scope'] ?? null,
+                'status' => 'pending',
+            ]);
         } catch (\Throwable $e) {
-            \Illuminate\Support\Facades\Log::info('Audit request received: ' . json_encode($validated));
+            Log::error('Inbound audit request database persistence failed', [
+                'error_code' => $e->getCode(),
+            ]);
+
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unable to process your request at this time. Please try again shortly or contact us directly.',
+                ], 500);
+            }
+
+            return redirect()->to(url('/#contact'))->with('audit_error', 'Unable to process your request at this time. Please try again shortly or contact us directly.');
+        }
+
+        // Send notification second
+        $mailSent = $auditRequest->sendNotification();
+
+
+        if ($mailSent) {
+            $responseMessage = 'Thank you! Your audit request has been received. We will respond within 24 hours.';
+            $sessionKey = 'audit_success';
+        } else {
+            $responseMessage = 'Thank you! Your audit request has been recorded. Our automated notification system is experiencing a slight delay, but our team will review your inquiry shortly.';
+            $sessionKey = 'audit_warning';
         }
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Thank you! Your audit request has been received. We will respond within 24 hours.',
+                'message' => $responseMessage,
             ]);
         }
 
-        return redirect()->to(url('/#contact'))->with('audit_success', 'Thank you! Your audit request has been received. We will respond within 24 hours.');
+        return redirect()->to(url('/#contact'))->with($sessionKey, $responseMessage);
     }
 }
